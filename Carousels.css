@@ -1,0 +1,312 @@
+/* Wrapper styles */
+.wrapper {
+    width: 300px;
+    margin: 0;
+    transition: transform 0.3s ease-out, opacity 0.3s ease-out;
+  }
+  
+  .wrapper-1 {
+    transform-origin: left center;
+  }
+  
+  .wrapper-2 {
+    transform-origin: center top;
+  }
+  
+  .wrapper-3 {
+    transform-origin: right center;
+  }
+  
+  .front-boxes {
+    position: relative;
+    width: 300px;
+    margin: 20px auto;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    padding-bottom: 40px;
+  }
+  
+  /* Mobiiliresponsiivisuus */
+  @media screen and (max-width: 1080px) {
+    .wrappers-container {
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+    }
+  
+    .wrapper {
+      width: 100%;
+      max-width: 300px;
+    }
+  
+    .front-boxes {
+      margin: 10px auto;
+    }
+  }
+
+
+
+
+  
+  
+  /* Yhdistetään määritykset */
+  .containers-wrapper-1,
+  .containers-wrapper-2,
+  .containers-wrapper-3 {
+    display: flex;
+    transition: transform 0.9s ease-out;
+    gap: 20px;
+    user-select: none;
+    cursor: grab;
+    touch-action: pan-y pinch-zoom;
+  }
+  
+  /* Kun käyttäjä raahaa karusellia */
+  .containers-wrapper-1.dragging,
+  .containers-wrapper-2.dragging,
+  .containers-wrapper-3.dragging {
+    cursor: grabbing;
+    transition: none;
+  }
+  
+  /* Varmistetaan että grab-kursori säilyy myös lukitussa tilassa */
+  .wrappers-container.locked .containers-wrapper {
+    cursor: grab;
+  }
+  
+  .wrappers-container.locked .containers-wrapper.dragging {
+    cursor: grabbing;
+  }
+
+ 
+  
+  .container {
+    position: relative;
+    width: 300px;
+    height: 300px;
+    background-color: transparent;
+    border-radius: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    color: rgb(211, 211, 211);
+    z-index: 1;
+    overflow: hidden;
+  }
+  
+  .container::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(94, 136, 152, 0.133);
+    backdrop-filter: blur(10px); /* Käytä backdrop-filter blur-efektiin */
+    -webkit-backdrop-filter: blur(10px); /* Safari-tuki */
+    border-radius: 20px;
+    z-index: -1; /* Taakse */
+  }
+
+  
+  .container h1,
+  .container p {
+    text-align: center;
+    font-size: 1,5rem;
+    padding: 10px;
+    margin-left: 10px;
+    margin-right: 10px;
+    font-family: "SF Pro Display", "SF Pro Icons", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  }
+  
+  #first-letter {
+    display: inline-block;
+    background: linear-gradient(to right, #f5f5f5, #828282);
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+    font-size: 1.5rem;
+  }
+  
+  #after-letter {
+    display: inline-block;
+    background: linear-gradient(to right, #c8c8c8, #ffffff);
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+    font-size: 1.5rem;
+  }
+  
+  #last-letter {
+    display: inline-block;
+    animation: scaleUp2 2s ease-in-out infinite;
+    background: linear-gradient(to right, #ffffff, #ffad06);
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+    font-size: 2.5rem;
+  }
+
+  
+  
+  @keyframes scaleUp2 {
+    0%,
+    100% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(1.2);
+    }
+  }
+  
+  .carousel-dots {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    z-index: 10;
+  }
+  
+  .dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: rgba(10, 9, 9, 0.793);
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .dot.active {
+    background: rgba(153, 29, 29, 0.8);
+  }
+
+ /* Wrappers-container vaakasuuntaan suuremmilla näytöillä */
+.wrappers-container {
+    display: flex;
+    flex-direction: row; /* Kolme vierekkäin oletuksena */
+    flex-wrap: wrap; /* Sallitaan rivien katkeaminen */
+    align-items: center;
+    justify-content: center; /* Keskitetään vaakasuunnassa */
+    gap: 20px; /* Väli boksien välillä */
+    max-width: 1000px; /* Rajoitetaan kokonaisleveys siistiyden vuoksi */
+    margin: 0 auto; /* Keskitetään vaakasuunnassa */
+    
+  }
+  
+  /* Keskikokoiset näytöt: kaksi vierekkäin, yksi alla */
+  @media screen and (max-width: 800px) {
+    .wrappers-container {
+      flex-direction: row; /* Säilytetään vaakasuunta */
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 15px;
+    }
+  
+    .wrapper {
+      width: 100%;
+      max-width: 300px;
+    }
+  
+    /* Kaksi ensimmäistä vierekkäin, kolmas yksin */
+    .wrapper-1,
+    .wrapper-2 {
+      flex: 0 0 calc(50% - 7.5px); /* 50% leveys miinus puolet gapista */
+      max-width: 300px;
+    }
+  
+    .wrapper-3 {
+      flex: 0 0 100%; /* Kolmas boksi täysi leveys */
+      max-width: 300px;
+      margin: 0 auto; /* Keskitetään kolmas boksi */
+    }
+  
+    .front-boxes {
+      margin: 10px auto;
+    }
+  }
+  
+  /* Pienet näytöt: kaikki pystysuorassa */
+  @media screen and (max-width: 600px) {
+    .wrappers-container {
+      flex-direction: column; /* Pystysuunta */
+      align-items: center;
+      gap: 10px;
+    }
+  
+    .wrapper {
+      width: 100%;
+      max-width: 300px;
+    }
+  
+    .wrapper-1,
+    .wrapper-2,
+    .wrapper-3 {
+      flex: 0 0 auto; /* Palautetaan normaalikoko */
+    }
+  
+    .front-boxes {
+      margin: 10px auto;
+    }
+  }
+
+  /* Lukitus nappi */
+
+  /* Lukitusnapin container */
+.carousel-lock-container {
+  position: relative;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 20px auto;
+  z-index: 10;
+}
+
+/* Lukitusnappi */
+.carousel-lock-btn {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(5px);
+  padding: 0;
+  margin: 0;
+}
+
+/* Hover-efekti */
+.carousel-lock-btn:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: scale(1.3);
+}
+
+/* SVG-ikonien tyylit */
+.carousel-lock-btn svg {
+  fill: var(--text-color);
+  width: 30px;
+  height: 30px;
+  transition: all 0.5s ease;
+}
+
+/* Lukko-ikonin näkyvyys */
+.carousel-lock-btn .lock-icon {
+  display: none;
+}
+
+.carousel-lock-btn.locked .lock-icon {
+  display: block;
+}
+
+.carousel-lock-btn.locked .unlock-icon {
+  display: none;
+}
