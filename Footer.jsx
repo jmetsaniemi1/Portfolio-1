@@ -112,7 +112,7 @@ export default function Footer() {
                 <div className="quote" style={{ fontSize: "1.1rem", color: "#fff", minHeight: 60, transition: "opacity 0.5s" }}>
                   {randomFacts[currentFact]}
                 </div>
-                {randomFacts[currentFact] === "Currently, the website is CSS (45.7%), JavaScript (29.5%) and HTML (24.8%)." && (
+                {randomFacts[currentFact] === "Currently, the website is JavaScript (61%) and CSS (39%)." && (
                   <div className="tech-bar" style={{ marginTop: 16 }}>
                     <div className="css"></div>
                     <div className="js"></div>
