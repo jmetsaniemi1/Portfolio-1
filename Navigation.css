@@ -127,6 +127,11 @@
     width: 100%;
     text-align: left;
     transition: color 0.3s ease; /* Synkronoi App.css:n kanssa */
+    font-family: "SF Pro Display", "SF Pro Icons", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-weight: 500;
+    padding: 0;
+    margin: 0;
+    outline: none;
   }
   
   .off-screen-menu a:hover,

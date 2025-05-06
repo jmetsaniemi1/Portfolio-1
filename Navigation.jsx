@@ -4,7 +4,7 @@ import lightModeVideo from "./assets/Images/Videos/lightmode_background_transiti
 import darkModeVideo from "./assets/Images/Videos/darkmode_background_transition-2.mp4";
 import GeneratedImage from "./assets/Images/Generated Image.png"; 
 
-function Navigation() {
+function Navigation({ onProjectsClick }) {
   const [isDarkMode, setIsDarkMode] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const loginModalRef = useRef(null);
@@ -231,7 +231,14 @@ function Navigation() {
       <a href="#">FRONT PAGE</a>
     </li>
     <li>
-      <a href="#PROJECTS">PROJECTS</a>
+      <button
+        type="button"
+        onClick={() => {
+          if (onProjectsClick) onProjectsClick();
+          setIsMenuOpen(false); // sulje valikko
+        }}>
+        PROJECTS
+      </button>
     </li>
     <li>
       <button id="open-modal" onClick={openCvModal}>

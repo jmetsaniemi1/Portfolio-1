@@ -15,6 +15,8 @@ import Footer from "./Footer";
 function App() {
   const dialogRef = useRef(null);
   const [isLocked, setIsLocked] = useState(false);
+  const projectsRef = useRef(null);
+  const [projectsOpen, setProjectsOpen] = useState(false);
 
   useEffect(() => {
     console.log("Experience section:", document.querySelector("#experience-section"));
@@ -33,9 +35,18 @@ function App() {
     setIsLocked((prev) => !prev);
   };
 
+  const openProjectsAndScroll = () => {
+    setProjectsOpen(true);
+    setTimeout(() => {
+      if (projectsRef.current) {
+        projectsRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+    }, 100);
+  };
+
   return (
     <div style={{ minHeight: "300vh" }}>
-      <Navigation />
+      <Navigation onProjectsClick={openProjectsAndScroll} />
       <WelcomeText />
 
       <section id="experience-section" className="content-section">
@@ -183,7 +194,7 @@ function App() {
         </div>
       </Columns>
 
-      <Columns label="Projects" contentType="projects">
+      <Columns label="Projects" contentType="projects" ref={projectsRef} isOpen={projectsOpen}>
         <div className="certifications-container">
           <div className="certification-item">
             <p style={{ color: "rgb(238, 245, 251)", fontSize: "1.5rem", fontWeight: "bold", textDecoration: "none", fontFamily: 'SF Pro Display, SF Pro Icons, Helvetica Neue, Helvetica, Arial, sans-serif' }}>

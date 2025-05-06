@@ -1,12 +1,19 @@
 import React, { useRef, useState, useEffect } from "react";
 import "./App.css";
 
-const CertificationsToggle = ({ label = "Certifications", contentType = "certifications", children }) => {
+const CertificationsToggle = React.forwardRef(({ label = "Certifications", contentType = "certifications", children, isOpen: isOpenProp }, ref) => {
   const [isOpen, setIsOpen] = useState(false);
   const [maxHeight, setMaxHeight] = useState("0px");
   const [visible, setVisible] = useState(false);
   const contentRef = useRef(null);
   const wrapperRef = useRef(null);
+
+  useEffect(() => {
+    if (typeof isOpenProp === "boolean") {
+      setIsOpen(isOpenProp);
+    }
+    // eslint-disable-next-line
+  }, [isOpenProp]);
 
   useEffect(() => {
     if (isOpen && contentRef.current) {
@@ -25,7 +32,7 @@ const CertificationsToggle = ({ label = "Certifications", contentType = "certifi
   };
 
   return (
-    <div className={`${contentType}-column column`} ref={wrapperRef}>
+    <div className={`${contentType}-column column`} ref={ref || wrapperRef}>
       <div className="certification-item certification-item-header">
         <h1>
           <span id="certifications-letter">{label}</span>
@@ -52,6 +59,6 @@ const CertificationsToggle = ({ label = "Certifications", contentType = "certifi
       </div>
     </div>
   );
-};
+});
 
 export default CertificationsToggle;
