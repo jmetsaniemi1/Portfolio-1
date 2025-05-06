@@ -1,3 +1,4 @@
+import React from "react";
 import { motion } from "framer-motion";
 import { useEffect, useState, useRef } from "react";
 import gsap from "gsap";

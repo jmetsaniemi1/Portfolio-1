@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import "./Navigation.css";
 import lightModeVideo from "./assets/Images/Videos/lightmode_background_transition-2.mp4";
 import darkModeVideo from "./assets/Images/Videos/darkmode_background_transition-2.mp4";
