@@ -193,16 +193,6 @@ const verifyToken = (req, res, next) => {
 
 
 
-// 🔹 Yritetään tuoda UserPosts ja UserSettings, mutta ei kaadeta palvelinta jos ne puuttuvat
-let UserPosts, UserSettings;
-try {
-    UserPosts = require("./models/UserPosts");
-    UserSettings = require("./models/UserSettings");
-} catch (error) {
-    console.warn("⚠️ Warning: UserPosts or UserSettings model not found.");
-}
-
-
 // Delete account endpoint
 app.delete("/delete-account", verifyToken, async (req, res) => {
     console.log("🔹 Delete account request received");
@@ -227,26 +217,7 @@ app.delete("/delete-account", verifyToken, async (req, res) => {
             return res.status(500).json({ message: "Failed to delete user" });
         }
 
-        console.log("✅ User deleted successfully:", userId);
-
-        // (Valinnainen tulevaisuuden käyttöön) Poistetaan käyttäjän mahdolliset muut tiedot muista tauluista, jos mallit on määritelty
-        if (UserPosts) {
-            console.log("🔹 Deleting related user posts...");
-            const deletedPosts = await UserPosts.deleteMany({ userId });
-            console.log("🔹 Deleted user posts:", deletedPosts.deletedCount);
-        } else {
-            console.warn("⚠️ Skipping user posts deletion: UserPosts model not found.");
-        }
-
-        if (UserSettings) {
-            console.log("🔹 Deleting related user settings...");
-            const deletedSettings = await UserSettings.deleteMany({ userId });
-            console.log("🔹 Deleted user settings:", deletedSettings.deletedCount);
-        } else {
-            console.warn("⚠️ Skipping user settings deletion: UserSettings model not found.");
-        }
-
-        console.log("✅ All user data deleted successfully");
+        console.log("✅ User deleted successfully (no posts/settings)");
         res.json({ message: "Account deleted successfully" });
 
     } catch (error) {
