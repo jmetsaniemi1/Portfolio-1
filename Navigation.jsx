@@ -13,6 +13,11 @@ function Navigation({ onProjectsClick }) {
   const [registerError, setRegisterError] = useState('');
   const [loginSuccess, setLoginSuccess] = useState('');
   const [registerSuccess, setRegisterSuccess] = useState('');
+  const [isLoginOpen, setIsLoginOpen] = useState(false);
+  const [isCvOpen, setIsCvOpen] = useState(false);
+  const [user, setUser] = useState(null);
+  const [isUserModalOpen, setIsUserModalOpen] = useState(false);
+  const [isDeleteConfirmOpen, setIsDeleteConfirmOpen] = useState(false);
   const loginModalRef = useRef(null);
   const cvModalRef = useRef(null);
   const dayToNightVideoRef = useRef(null);
@@ -179,25 +184,22 @@ function Navigation({ onProjectsClick }) {
     };
   }, []);
 
-  // Modaalin käsittely
+  // Modaalin käsittely (div-pohjainen)
   const openLoginModal = () => {
-    console.log("Opening login modal");
-    loginModalRef.current.showModal();
+    setIsLoginOpen(true);
+    document.body.classList.add('modal-open');
   };
-
   const closeLoginModal = () => {
-    console.log("Closing login modal");
-    loginModalRef.current.close();
+    setIsLoginOpen(false);
+    document.body.classList.remove('modal-open');
   };
-
   const openCvModal = () => {
-    console.log("Opening CV modal");
-    cvModalRef.current.showModal();
+    setIsCvOpen(true);
+    document.body.classList.add('modal-open');
   };
-
   const closeCvModal = () => {
-    console.log("Closing CV modal");
-    cvModalRef.current.close();
+    setIsCvOpen(false);
+    document.body.classList.remove('modal-open');
   };
 
   // Lomakekäsittelijät
@@ -221,7 +223,14 @@ function Navigation({ onProjectsClick }) {
     }
     // Simuloidaan onnistunutta kirjautumista
     setLoginSuccess('Kirjautuminen onnistui! (demo)');
+    setUser({ email: loginForm.email });
     setLoginForm({ email: '', password: '' });
+    setTimeout(() => {
+      setIsLoginOpen(false);
+      setIsUserModalOpen(true);
+      document.body.classList.remove('modal-open');
+      document.body.classList.add('modal-open');
+    }, 800); // pieni viive, jotta "onnistui"-viesti näkyy
   };
   const handleRegisterSubmit = (e) => {
     e.preventDefault();
@@ -234,6 +243,53 @@ function Navigation({ onProjectsClick }) {
     // Simuloidaan onnistunutta rekisteröintiä
     setRegisterSuccess('Rekisteröinti onnistui! (demo)');
     setRegisterForm({ email: '', password: '' });
+  };
+
+  // Sulje modaali escillä
+  useEffect(() => {
+    const handleEsc = (e) => {
+      if (e.key === 'Escape') {
+        if (isLoginOpen) closeLoginModal();
+        if (isCvOpen) closeCvModal();
+        if (isUserModalOpen) closeUserModal();
+        if (isDeleteConfirmOpen) closeDeleteConfirm();
+      }
+    };
+    if (isLoginOpen || isCvOpen || isUserModalOpen || isDeleteConfirmOpen) {
+      window.addEventListener('keydown', handleEsc);
+    }
+    return () => {
+      window.removeEventListener('keydown', handleEsc);
+    };
+  }, [isLoginOpen, isCvOpen, isUserModalOpen, isDeleteConfirmOpen]);
+
+  const handleLogout = () => {
+    setUser(null);
+    setIsUserModalOpen(false);
+    setIsMenuOpen(false);
+    document.body.classList.remove('modal-open');
+  };
+  const openUserModal = () => {
+    setIsUserModalOpen(true);
+    document.body.classList.add('modal-open');
+  };
+  const closeUserModal = () => {
+    setIsUserModalOpen(false);
+    document.body.classList.remove('modal-open');
+  };
+  const openDeleteConfirm = () => {
+    setIsDeleteConfirmOpen(true);
+  };
+  const closeDeleteConfirm = () => {
+    setIsDeleteConfirmOpen(false);
+  };
+  const handleDeleteAccount = () => {
+    // Demo: poista "tili"
+    setUser(null);
+    setIsDeleteConfirmOpen(false);
+    setIsUserModalOpen(false);
+    setIsMenuOpen(false);
+    document.body.classList.remove('modal-open');
   };
 
   return (
@@ -260,38 +316,225 @@ function Navigation({ onProjectsClick }) {
         <source src={darkModeVideo} type="video/mp4" />
       </video>
 
+      {/* Overlay ja login-modaali */}
+      {isLoginOpen && (
+        <>
+          <div
+            className="modal-overlay"
+            onClick={closeLoginModal}
+            onWheel={e => e.preventDefault()}
+            onTouchMove={e => e.preventDefault()}
+          ></div>
+          <div className="modal" tabIndex={-1}>
+            <button id="close-login-modal" onClick={closeLoginModal}>Close</button>
+            <h2 style={{ fontSize: "4rem" }}>Login</h2>
+            <p>I'm using MongoDB database to store data and Render cloud service to host the backend. Together they enable registration and login. If you register, you can login with your email and password.</p>
+            <ul style={{ margin: '1em 0 1.5em 1.2em', fontSize: '1rem', lineHeight: 1.6 }}>
+              <li>Passwords are stored securely using bcrypt hashing and never in plain text.</li>
+              <li>All communication is encrypted via HTTPS.</li>
+              <li>User data is never shared with third parties and is only used for authentication.</li>
+              <li>Always use a strong password (at least 8 characters, upper and lower case letters, and numbers).</li>
+            </ul>
+            <p>Please enter your email and password to login. If you don't have an account, please create one.</p>
+            <form id="login-form" onSubmit={handleLoginSubmit} autoComplete="off">
+              <label htmlFor="email">Email:</label>
+              <input type="email" id="email" name="email" value={loginForm.email} onChange={handleLoginChange} required />
+              <label htmlFor="password">Password:</label>
+              <input type="password" id="password" name="password" value={loginForm.password} onChange={handleLoginChange} required />
+              <button id="login-button" type="submit">Login</button>
+              {loginError && <div style={{ color: '#ff4444', marginTop: 8 }}>{loginError}</div>}
+              {loginSuccess && <div style={{ color: 'green', marginTop: 8 }}>{loginSuccess}</div>}
+            </form>
+            <h2>OR</h2>
+            <p>Create account</p>
+            <form id="register-form" onSubmit={handleRegisterSubmit} autoComplete="off">
+              <label htmlFor="register-email">Email:</label>
+              <input type="email" id="register-email" name="email" value={registerForm.email} onChange={handleRegisterChange} required />
+              <label htmlFor="register-password">Password:</label>
+              <input type="password" id="register-password" name="password" value={registerForm.password} onChange={handleRegisterChange} required />
+              <br />
+              <button id="register-button" type="submit">Register</button>
+              {registerError && <div style={{ color: '#ff4444', marginTop: 8 }}>{registerError}</div>}
+              {registerSuccess && <div style={{ color: 'green', marginTop: 8 }}>{registerSuccess}</div>}
+            </form>
+          </div>
+        </>
+      )}
+      {/* Overlay ja CV-modaali */}
+      {isCvOpen && (
+        <>
+          <div
+            className="modal-overlay"
+            onClick={closeCvModal}
+            onWheel={e => e.preventDefault()}
+            onTouchMove={e => e.preventDefault()}
+          ></div>
+          <div className="modal cv-modal" tabIndex={-1}>
+            <div className="section">
+              <h2>Work Experience</h2>
+              <hr />
+              <h3>Kesko Oyj</h3>
+              <p><em>Logistics Specialist</em><br />2010 – Present</p>
+              <ul>
+                <li>Managed and optimized logistics operations using SAP ERP</li>
+                <li>Participated in development projects to improve operational efficiency</li>
+                <li>Collaborated with cross-functional teams to enhance workflow processes</li>
+                <li>Gained deep insight into the entire logistics chain and risk management</li>
+                <li>Developed strong problem-solving, patience, and analytical thinking skills</li>
+              </ul>
+            </div>
+            <div className="section">
+              <h2>Education</h2>
+              <hr />
+              <h3>Taitotalo – Software Development</h3>
+              <p>2023 – Present</p>
+              <ul>
+                <li>Studying full-stack web development with a focus on JavaScript, React, and Node.js</li>
+                <li>Working on a team project to develop a solar system website using HTML, CSS, and JavaScript</li>
+                <li>Learning database management and dynamic web applications</li>
+              </ul>
+            </div>
+            <div className="section">
+              <h2>Projects</h2>
+              <hr />
+              <h3>Solar System Website (Team Project)</h3>
+              <ul>
+                <li>Developed an interactive educational website about the solar system</li>
+                <li>Contributed to testing, documentation, and teamwork using Scrum methodology</li>
+                <li>Designed with a dark theme for readability and accessibility</li>
+              </ul>
+              <h3>Portfolio Website (Ongoing Development)</h3>
+              <ul>
+                <li>Creating a personal portfolio site to showcase coding projects and skills</li>
+                <li>Implementing JavaScript features to enhance interactivity</li>
+              </ul>
+            </div>
+            <div className="section">
+              <h2>Publications</h2>
+              <hr />
+              <h3><em>Eerik Taffelsson: suvun taakka</em></h3>
+              <p>Author: Johannes K. Metsäniemi<br />Publisher: Marketiimi, 2017<br />ISBN: 978-952-7247-00-6</p>
+              <p>A historical novel exploring the memoirs of one of Finland's most renowned figures and the events that led him to a tragic act.</p>
+            </div>
+            <div className="section">
+              <h2>Other Experience</h2>
+              <hr />
+              <h3>Novelist / Writer</h3>
+              <ul>
+                <li>Passionate about historical novels and storytelling</li>
+                <li>Strong writing, research, and creative skills</li>
+                <li>Experience in hosting events and public speaking</li>
+              </ul>
+            </div>
+            <div className="section">
+              <h2>Hobbies & Interests</h2>
+              <hr />
+              <ul>
+                <li>Writing historical novels</li>
+                <li>Building wooden furniture</li>
+                <li>Running and outdoor activities</li>
+                <li>Digital art and design</li>
+              </ul>
+            </div>
+            <div className="section">
+              <h2>Languages</h2>
+              <hr />
+              <ul>
+                <li>Finnish (Native)</li>
+                <li>English (Fluent)</li>
+              </ul>
+            </div>
+            <div className="section">
+              <h2>References</h2>
+              <hr />
+              <p>Available upon request. LOL.</p>
+            </div>
+            <button onClick={closeCvModal}>Sulje</button>
+          </div>
+        </>
+      )}
+      {/* Overlay ja käyttäjän oma modaali */}
+      {isUserModalOpen && (
+        <>
+          <div
+            className="modal-overlay"
+            onClick={closeUserModal}
+            onWheel={e => e.preventDefault()}
+            onTouchMove={e => e.preventDefault()}
+          ></div>
+          <div className="modal" tabIndex={-1}>
+            <button id="close-user-modal" onClick={closeUserModal}>Sulje</button>
+            <h2 style={{ fontSize: "3rem" }}>Omat sivut</h2>
+            <div className="user-content">
+              <h3>Tervetuloa!</h3>
+              <div className="user-info">
+                <p>Rekisteröity sähköposti: <span id="user-email">{user?.email}</span></p>
+              </div>
+              <button id="logout-btn" onClick={handleLogout}>Kirjaudu ulos</button>
+              <br />
+              <p>Voit myös poistaa tilisi.</p>
+              <button id="delete-account-btn" onClick={openDeleteConfirm}>Poista tili</button>
+              {/* Tilin poiston varmistusmodaali */}
+              {isDeleteConfirmOpen && (
+                <>
+                  <div className="modal-overlay"
+                    onClick={closeDeleteConfirm}
+                    onWheel={e => e.preventDefault()}
+                    onTouchMove={e => e.preventDefault()}
+                  ></div>
+                  <div className="modal" tabIndex={-1} style={{ maxWidth: 400 }}>
+                    <h2>Vahvista tilin poisto</h2>
+                    <p>Haluatko varmasti poistaa tilisi? Tätä toimintoa ei voi perua.</p>
+                    <div style={{ display: 'flex', gap: 16, marginTop: 24 }}>
+                      <button onClick={handleDeleteAccount} style={{ background: '#ff4444', color: '#fff' }}>Kyllä, poista tili</button>
+                      <button onClick={closeDeleteConfirm}>Peruuta</button>
+                    </div>
+                  </div>
+                </>
+              )}
+            </div>
+          </div>
+        </>
+      )}
+
       {/* Off-screen-valikko */}
-<div className={`off-screen-menu ${isMenuOpen ? "active" : ""}`} ref={offScreenMenuRef}>
-  <ul>
-    <img src={GeneratedImage} alt="Generated Image" /> {/* Korjattu src */}
-    <li>
-      <button id="open-login-modal" onClick={openLoginModal}>
-        LOGIN
-      </button>
-    </li>
-    <li>
-      <a href="#">FRONT PAGE</a>
-    </li>
-    <li>
-      <button
-        type="button"
-        onClick={() => {
-          if (onProjectsClick) onProjectsClick();
-          setIsMenuOpen(false); // sulje valikko
-        }}>
-        PROJECTS
-      </button>
-    </li>
-    <li>
-      <button id="open-modal" onClick={openCvModal}>
-        CV
-      </button>
-    </li>
-    <li>
-      <a href="#CONTACT">CONTACT</a>
-    </li>
-  </ul>
-</div>
+      <div className={`off-screen-menu ${isMenuOpen ? "active" : ""}`} ref={offScreenMenuRef}>
+        <ul>
+          <img src={GeneratedImage} alt="Generated Image" /> {/* Korjattu src */}
+          <li>
+            {user ? (
+              <button id="open-user-modal" onClick={openUserModal}>
+                MY PAGE
+              </button>
+            ) : (
+              <button id="open-login-modal" onClick={openLoginModal}>
+                LOGIN
+              </button>
+            )}
+          </li>
+          <li>
+            <a href="#">FRONT PAGE</a>
+          </li>
+          <li>
+            <button
+              type="button"
+              onClick={() => {
+                if (onProjectsClick) onProjectsClick();
+                setIsMenuOpen(false); // sulje valikko
+              }}>
+              PROJECTS
+            </button>
+          </li>
+          <li>
+            <button id="open-modal" onClick={openCvModal}>
+              CV
+            </button>
+          </li>
+          <li>
+            <a href="#CONTACT">CONTACT</a>
+          </li>
+        </ul>
+      </div>
 
       {/* Navigaatio */}
       <nav>
@@ -325,122 +568,6 @@ function Navigation({ onProjectsClick }) {
           <span></span>
         </div>
       </nav>
-
-      {/* Modaali loginille */}
-      <dialog className="modal" ref={loginModalRef}>
-        <button id="close-login-modal" onClick={closeLoginModal}>Close</button>
-        <h2 style={{ fontSize: "4rem" }}>Login</h2>
-        <p>I'm using MongoDB database to store data and Render cloud service to host the backend. Together they enable registration and login. If you register, you can login with your email and password.</p>
-        <br />
-        <p>The page is made for testing purposes. Database access is secured by JWT tokens and admin credentials stored in .env file.</p>
-        <br />
-        <p>Please enter your email and password to login. If you don't have an account, please create one.</p>
-        <form id="login-form" onSubmit={handleLoginSubmit} autoComplete="off">
-          <label htmlFor="email">Email:</label>
-          <input type="email" id="email" name="email" value={loginForm.email} onChange={handleLoginChange} required />
-          <label htmlFor="password">Password:</label>
-          <input type="password" id="password" name="password" value={loginForm.password} onChange={handleLoginChange} required />
-          <button id="login-button" type="submit">Login</button>
-          {loginError && <div style={{ color: '#ff4444', marginTop: 8 }}>{loginError}</div>}
-          {loginSuccess && <div style={{ color: 'green', marginTop: 8 }}>{loginSuccess}</div>}
-        </form>
-        <h2>OR</h2>
-        <p>Create account</p>
-        <form id="register-form" onSubmit={handleRegisterSubmit} autoComplete="off">
-          <label htmlFor="register-email">Email:</label>
-          <input type="email" id="register-email" name="email" value={registerForm.email} onChange={handleRegisterChange} required />
-          <label htmlFor="register-password">Password:</label>
-          <input type="password" id="register-password" name="password" value={registerForm.password} onChange={handleRegisterChange} required />
-          <br />
-          <button id="register-button" type="submit">Register</button>
-          {registerError && <div style={{ color: '#ff4444', marginTop: 8 }}>{registerError}</div>}
-          {registerSuccess && <div style={{ color: 'green', marginTop: 8 }}>{registerSuccess}</div>}
-        </form>
-      </dialog>
-
-      {/* Modaali CV:lle */}
-      <dialog className="modal" ref={cvModalRef}>
-        <div className="section">
-          <h2>Work Experience</h2>
-          <hr />
-          <h3>Kesko Oyj</h3>
-          <p><em>Logistics Specialist</em><br />2010 – Present</p>
-          <ul>
-            <li>Managed and optimized logistics operations using SAP ERP</li>
-            <li>Participated in development projects to improve operational efficiency</li>
-            <li>Collaborated with cross-functional teams to enhance workflow processes</li>
-            <li>Gained deep insight into the entire logistics chain and risk management</li>
-            <li>Developed strong problem-solving, patience, and analytical thinking skills</li>
-          </ul>
-        </div>
-        <div className="section">
-          <h2>Education</h2>
-          <hr />
-          <h3>Taitotalo – Software Development</h3>
-          <p>2023 – Present</p>
-          <ul>
-            <li>Studying full-stack web development with a focus on JavaScript, React, and Node.js</li>
-            <li>Working on a team project to develop a solar system website using HTML, CSS, and JavaScript</li>
-            <li>Learning database management and dynamic web applications</li>
-          </ul>
-        </div>
-        <div className="section">
-          <h2>Projects</h2>
-          <hr />
-          <h3>Solar System Website (Team Project)</h3>
-          <ul>
-            <li>Developed an interactive educational website about the solar system</li>
-            <li>Contributed to testing, documentation, and teamwork using Scrum methodology</li>
-            <li>Designed with a dark theme for readability and accessibility</li>
-          </ul>
-          <h3>Portfolio Website (Ongoing Development)</h3>
-          <ul>
-            <li>Creating a personal portfolio site to showcase coding projects and skills</li>
-            <li>Implementing JavaScript features to enhance interactivity</li>
-          </ul>
-        </div>
-        <div className="section">
-          <h2>Publications</h2>
-          <hr />
-          <h3><em>Eerik Taffelsson: suvun taakka</em></h3>
-          <p>Author: Johannes K. Metsäniemi<br />Publisher: Marketiimi, 2017<br />ISBN: 978-952-7247-00-6</p>
-          <p>A historical novel exploring the memoirs of one of Finland's most renowned figures and the events that led him to a tragic act.</p>
-        </div>
-        <div className="section">
-          <h2>Other Experience</h2>
-          <hr />
-          <h3>Novelist / Writer</h3>
-          <ul>
-            <li>Passionate about historical novels and storytelling</li>
-            <li>Strong writing, research, and creative skills</li>
-            <li>Experience in hosting events and public speaking</li>
-          </ul>
-        </div>
-        <div className="section">
-          <h2>Hobbies & Interests</h2>
-          <hr />
-          <ul>
-            <li>Writing historical novels</li>
-            <li>Building wooden furniture</li>
-            <li>Running and outdoor activities</li>
-            <li>Digital art and design</li>
-          </ul>
-        </div>
-        <div className="section">
-          <h2>Languages</h2>
-          <hr />
-          <ul>
-            <li>Finnish (Native)</li>
-            <li>English (Fluent)</li>
-          </ul>
-        </div>
-        <div className="section">
-          <h2>References</h2>
-          <hr />
-          <p>Available upon request. LOL.</p>
-        </div>
-        <button onClick={closeCvModal}>Sulje</button>
-      </dialog>
     </div>
   );
 }

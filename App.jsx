@@ -276,13 +276,6 @@ function App() {
         </div>
       </section>
 <Footer />
-      <div style={{ textAlign: "center", margin: "2rem 0" }}>
-        <button onClick={openModal}>Avaa modaalinen dialogi</button>
-        <dialog className="modal" ref={dialogRef}>
-          <p>Tämä on modaalinen dialogi.</p>
-          <button onClick={closeModal}>Sulje</button>
-        </dialog>
-      </div>
     </div>
   );
 }

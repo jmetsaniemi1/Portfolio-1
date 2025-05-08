@@ -155,28 +155,48 @@
     }
   }
   
-  /* Modaali-ikkunoiden lisätyylit (tarvittaessa) */
+  /* Overlay div-pohjaiselle modaalille */
+  .modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0,0,0,0.45);
+    z-index: 1199;
+    cursor: pointer;
+  }
+  
+  /* Modal (div) - tumma tyyli molemmille modaaleille */
   .modal {
     z-index: 1200;
-    background: rgba(18, 24, 38, 0.98); /* Tumma, hieman läpikuultava */
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(18, 24, 38, 0.98);
     color: #fff;
     border-radius: 25px;
     box-shadow: 0 4px 32px rgba(0,0,0,0.25);
     padding: 40px 32px 32px 32px;
-    max-width: 420px;
-    width: 90vw;
+    max-width: 600px;
+    width: 95vw;
     font-family: 'SF Pro Display', 'Helvetica Neue', Arial, sans-serif;
     border: none;
-    position: relative;
+    outline: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    overflow-y: auto;
+    max-height: 90vh;
+    overscroll-behavior: contain;
   }
 
-  .modal h2 {
-    font-size: 2.5rem;
-    margin-bottom: 1.2rem;
-    background: linear-gradient(to right, #fff, #ffad06);
-    background-clip: text;
-    -webkit-background-clip: text;
-    color: transparent;
+  .modal h2, .modal h3 {
+    color: #fff;
+    background: none;
+    -webkit-background-clip: unset;
+    background-clip: unset;
     text-align: center;
   }
 
@@ -212,7 +232,7 @@
   }
 
   .modal button[type="submit"],
-  #close-login-modal {
+  #close-login-modal, .modal button {
     background: linear-gradient(90deg, #ffad06 0%, #fff 100%);
     color: #181818;
     border: none;
@@ -229,7 +249,7 @@
     width: 100%;
   }
 
-  #close-login-modal {
+  #close-login-modal, .modal button[onClick] {
     position: absolute;
     top: 18px;
     right: 18px;
@@ -243,7 +263,7 @@
   }
 
   .modal button[type="submit"]:hover,
-  #close-login-modal:hover {
+  #close-login-modal:hover, .modal button:hover {
     background: linear-gradient(90deg, #fff 0%, #ffad06 100%);
     color: #222;
   }
@@ -252,66 +272,102 @@
     margin-bottom: 1.5rem;
   }
 
-  /* CV-modaali paperimaiseksi */
-  dialog.modal[open]:has(.section) {
-    background: linear-gradient(135deg, #f7f6f2 60%, #e9e7df 100%);
-    color: #222;
-    box-shadow: 0 8px 40px rgba(0,0,0,0.18);
-    border-radius: 16px;
-    max-width: 900px;
-    width: 95vw;
-    padding: 48px 48px 32px 48px;
-    font-family: 'Crimson Text', 'Georgia', serif;
-  }
-  dialog.modal[open]:has(.section) h2,
-  dialog.modal[open]:has(.section) h3 {
-    color: #222;
+  .modal .section {
     background: none;
-    -webkit-background-clip: unset;
-    background-clip: unset;
+    color: #fff;
+    font-family: 'SF Pro Display', 'Helvetica Neue', Arial, sans-serif;
   }
-  dialog.modal[open]:has(.section) hr {
-    border: none;
-    border-top: 2px solid #e0dcd2;
-    margin: 0.7em 0 1.2em 0;
-  }
-  dialog.modal[open]:has(.section) .section {
-    margin-bottom: 2.2em;
-  }
-  dialog.modal[open]:has(.section) ul {
+  .modal .section ul {
     margin-left: 1.2em;
     margin-bottom: 0.7em;
-    color: #444;
-  }
-  dialog.modal[open]:has(.section) button {
-    background: #e9e7df;
-    color: #222;
-    border: 1px solid #d6d3c2;
-    border-radius: 10px;
-    padding: 0.6rem 1.5rem;
-    font-size: 1.1rem;
-    font-weight: bold;
-    cursor: pointer;
-    margin-top: 1.2rem;
-    margin-bottom: 0.5rem;
-    transition: background 0.3s, color 0.3s;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
-    display: block;
-    width: 100%;
-  }
-  dialog.modal[open]:has(.section) button:hover {
-    background: #f7f6f2;
-    color: #181818;
+    color: #ccc;
   }
 
   @media (max-width: 600px) {
     .modal {
       padding: 16px 4vw 16px 4vw;
-      max-width: 98vw;
+      max-width: 99vw;
+      font-size: 0.98rem;
     }
-    dialog.modal[open]:has(.section) {
-      padding: 16px 2vw 16px 2vw;
+    .modal h2 {
+      font-size: 1.5rem;
+    }
+  }
+
+  /* CV-modaali paperinvalkoiseksi (vain jos .modal sisältää .section) */
+  .modal.cv-modal {
+    background: linear-gradient(135deg, #f7f6f2 60%, #e9e7df 100%);
+    color: #222;
+    box-shadow: 0 8px 40px rgba(0,0,0,0.18);
+    border-radius: 16px;
+    font-family: 'Crimson Text', 'Georgia', serif;
+    overscroll-behavior: contain;
+  }
+  .modal.cv-modal h2, .modal.cv-modal h3 {
+    color: #222;
+  }
+  .modal.cv-modal .section ul {
+    color: #444;
+  }
+  .modal.cv-modal button {
+    background: #e9e7df;
+    color: #222;
+    border: 1px solid #d6d3c2;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  }
+  .modal.cv-modal button:hover {
+    background: #f7f6f2;
+    color: #181818;
+  }
+  @media (max-width: 600px) {
+    .modal.cv-modal {
+      padding: 12px 2vw 12px 2vw;
       max-width: 99vw;
     }
   }
 
+  .modal.cv-modal,
+  .modal.cv-modal h2,
+  .modal.cv-modal h3,
+  .modal.cv-modal p,
+  .modal.cv-modal li,
+  .modal.cv-modal em,
+  .modal.cv-modal span {
+    color: #222 !important;
+  }
+
+  .modal:not(.cv-modal) ul,
+  .modal:not(.cv-modal) ul li {
+    color: #fff !important;
+  }
+
+body.modal-open,
+html.modal-open {
+  overflow: hidden !important;
+  position: fixed;
+  width: 100vw;
+  overscroll-behavior: none;
+}
+
+.user-content {
+  margin-top: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.2rem;
+}
+.user-info {
+  background: rgba(30,40,60,0.18);
+  border-radius: 10px;
+  padding: 0.7em 1.2em;
+  margin-bottom: 1em;
+  color: #ffad06;
+  font-size: 1.1rem;
+}
+.button-container {
+  display: flex;
+  gap: 16px;
+  margin-top: 24px;
+  justify-content: center;
+}
