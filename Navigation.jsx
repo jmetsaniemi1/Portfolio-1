@@ -7,6 +7,12 @@ import GeneratedImage from "./assets/Images/Generated Image.png";
 function Navigation({ onProjectsClick }) {
   const [isDarkMode, setIsDarkMode] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [loginForm, setLoginForm] = useState({ email: '', password: '' });
+  const [registerForm, setRegisterForm] = useState({ email: '', password: '' });
+  const [loginError, setLoginError] = useState('');
+  const [registerError, setRegisterError] = useState('');
+  const [loginSuccess, setLoginSuccess] = useState('');
+  const [registerSuccess, setRegisterSuccess] = useState('');
   const loginModalRef = useRef(null);
   const cvModalRef = useRef(null);
   const dayToNightVideoRef = useRef(null);
@@ -194,6 +200,42 @@ function Navigation({ onProjectsClick }) {
     cvModalRef.current.close();
   };
 
+  // Lomakekäsittelijät
+  const handleLoginChange = (e) => {
+    setLoginForm({ ...loginForm, [e.target.name]: e.target.value });
+    setLoginError('');
+    setLoginSuccess('');
+  };
+  const handleRegisterChange = (e) => {
+    setRegisterForm({ ...registerForm, [e.target.name]: e.target.value });
+    setRegisterError('');
+    setRegisterSuccess('');
+  };
+  const handleLoginSubmit = (e) => {
+    e.preventDefault();
+    setLoginError('');
+    setLoginSuccess('');
+    if (!loginForm.email || !loginForm.password) {
+      setLoginError('Täytä kaikki kentät.');
+      return;
+    }
+    // Simuloidaan onnistunutta kirjautumista
+    setLoginSuccess('Kirjautuminen onnistui! (demo)');
+    setLoginForm({ email: '', password: '' });
+  };
+  const handleRegisterSubmit = (e) => {
+    e.preventDefault();
+    setRegisterError('');
+    setRegisterSuccess('');
+    if (!registerForm.email || !registerForm.password) {
+      setRegisterError('Täytä kaikki kentät.');
+      return;
+    }
+    // Simuloidaan onnistunutta rekisteröintiä
+    setRegisterSuccess('Rekisteröinti onnistui! (demo)');
+    setRegisterForm({ email: '', password: '' });
+  };
+
   return (
     <div className="navigation-wrapper">
       {/* Taustavideot */}
@@ -286,13 +328,117 @@ function Navigation({ onProjectsClick }) {
 
       {/* Modaali loginille */}
       <dialog className="modal" ref={loginModalRef}>
-        <p>Kirjautumismodaali</p>
-        <button onClick={closeLoginModal}>Sulje</button>
+        <button id="close-login-modal" onClick={closeLoginModal}>Close</button>
+        <h2 style={{ fontSize: "4rem" }}>Login</h2>
+        <p>I'm using MongoDB database to store data and Render cloud service to host the backend. Together they enable registration and login. If you register, you can login with your email and password.</p>
+        <br />
+        <p>The page is made for testing purposes. Database access is secured by JWT tokens and admin credentials stored in .env file.</p>
+        <br />
+        <p>Please enter your email and password to login. If you don't have an account, please create one.</p>
+        <form id="login-form" onSubmit={handleLoginSubmit} autoComplete="off">
+          <label htmlFor="email">Email:</label>
+          <input type="email" id="email" name="email" value={loginForm.email} onChange={handleLoginChange} required />
+          <label htmlFor="password">Password:</label>
+          <input type="password" id="password" name="password" value={loginForm.password} onChange={handleLoginChange} required />
+          <button id="login-button" type="submit">Login</button>
+          {loginError && <div style={{ color: '#ff4444', marginTop: 8 }}>{loginError}</div>}
+          {loginSuccess && <div style={{ color: 'green', marginTop: 8 }}>{loginSuccess}</div>}
+        </form>
+        <h2>OR</h2>
+        <p>Create account</p>
+        <form id="register-form" onSubmit={handleRegisterSubmit} autoComplete="off">
+          <label htmlFor="register-email">Email:</label>
+          <input type="email" id="register-email" name="email" value={registerForm.email} onChange={handleRegisterChange} required />
+          <label htmlFor="register-password">Password:</label>
+          <input type="password" id="register-password" name="password" value={registerForm.password} onChange={handleRegisterChange} required />
+          <br />
+          <button id="register-button" type="submit">Register</button>
+          {registerError && <div style={{ color: '#ff4444', marginTop: 8 }}>{registerError}</div>}
+          {registerSuccess && <div style={{ color: 'green', marginTop: 8 }}>{registerSuccess}</div>}
+        </form>
       </dialog>
 
       {/* Modaali CV:lle */}
       <dialog className="modal" ref={cvModalRef}>
-        <p>CV-modaali</p>
+        <div className="section">
+          <h2>Work Experience</h2>
+          <hr />
+          <h3>Kesko Oyj</h3>
+          <p><em>Logistics Specialist</em><br />2010 – Present</p>
+          <ul>
+            <li>Managed and optimized logistics operations using SAP ERP</li>
+            <li>Participated in development projects to improve operational efficiency</li>
+            <li>Collaborated with cross-functional teams to enhance workflow processes</li>
+            <li>Gained deep insight into the entire logistics chain and risk management</li>
+            <li>Developed strong problem-solving, patience, and analytical thinking skills</li>
+          </ul>
+        </div>
+        <div className="section">
+          <h2>Education</h2>
+          <hr />
+          <h3>Taitotalo – Software Development</h3>
+          <p>2023 – Present</p>
+          <ul>
+            <li>Studying full-stack web development with a focus on JavaScript, React, and Node.js</li>
+            <li>Working on a team project to develop a solar system website using HTML, CSS, and JavaScript</li>
+            <li>Learning database management and dynamic web applications</li>
+          </ul>
+        </div>
+        <div className="section">
+          <h2>Projects</h2>
+          <hr />
+          <h3>Solar System Website (Team Project)</h3>
+          <ul>
+            <li>Developed an interactive educational website about the solar system</li>
+            <li>Contributed to testing, documentation, and teamwork using Scrum methodology</li>
+            <li>Designed with a dark theme for readability and accessibility</li>
+          </ul>
+          <h3>Portfolio Website (Ongoing Development)</h3>
+          <ul>
+            <li>Creating a personal portfolio site to showcase coding projects and skills</li>
+            <li>Implementing JavaScript features to enhance interactivity</li>
+          </ul>
+        </div>
+        <div className="section">
+          <h2>Publications</h2>
+          <hr />
+          <h3><em>Eerik Taffelsson: suvun taakka</em></h3>
+          <p>Author: Johannes K. Metsäniemi<br />Publisher: Marketiimi, 2017<br />ISBN: 978-952-7247-00-6</p>
+          <p>A historical novel exploring the memoirs of one of Finland's most renowned figures and the events that led him to a tragic act.</p>
+        </div>
+        <div className="section">
+          <h2>Other Experience</h2>
+          <hr />
+          <h3>Novelist / Writer</h3>
+          <ul>
+            <li>Passionate about historical novels and storytelling</li>
+            <li>Strong writing, research, and creative skills</li>
+            <li>Experience in hosting events and public speaking</li>
+          </ul>
+        </div>
+        <div className="section">
+          <h2>Hobbies & Interests</h2>
+          <hr />
+          <ul>
+            <li>Writing historical novels</li>
+            <li>Building wooden furniture</li>
+            <li>Running and outdoor activities</li>
+            <li>Digital art and design</li>
+          </ul>
+        </div>
+        <div className="section">
+          <h2>Languages</h2>
+          <hr />
+          <ul>
+            <li>Finnish (Native)</li>
+            <li>English (Fluent)</li>
+          </ul>
+        </div>
+        <div className="section">
+          <h2>References</h2>
+          <hr />
+          <p>Available upon request. LOL.</p>
+        </div>
         <button onClick={closeCvModal}>Sulje</button>
       </dialog>
     </div>

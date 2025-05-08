@@ -157,6 +157,161 @@
   
   /* Modaali-ikkunoiden lisätyylit (tarvittaessa) */
   .modal {
-    z-index: 1200; /* Kaiken päällä */
+    z-index: 1200;
+    background: rgba(18, 24, 38, 0.98); /* Tumma, hieman läpikuultava */
+    color: #fff;
+    border-radius: 25px;
+    box-shadow: 0 4px 32px rgba(0,0,0,0.25);
+    padding: 40px 32px 32px 32px;
+    max-width: 420px;
+    width: 90vw;
+    font-family: 'SF Pro Display', 'Helvetica Neue', Arial, sans-serif;
+    border: none;
+    position: relative;
+  }
+
+  .modal h2 {
+    font-size: 2.5rem;
+    margin-bottom: 1.2rem;
+    background: linear-gradient(to right, #fff, #ffad06);
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+    text-align: center;
+  }
+
+  .modal label {
+    display: block;
+    margin-top: 1.2rem;
+    margin-bottom: 0.3rem;
+    font-weight: 600;
+    color: #ffad06;
+  }
+
+  .modal input[type="email"],
+  .modal input[type="password"] {
+    width: 100%;
+    padding: 0.9rem 1.2rem;
+    border-radius: 14px;
+    border: 1.5px solid #ffad06;
+    background: rgba(10, 30, 80, 0.55);
+    color: #fff;
+    font-size: 1.1rem;
+    margin-bottom: 0.5rem;
+    margin-top: 0.1rem;
+    box-sizing: border-box;
+    transition: border 0.3s, box-shadow 0.3s;
+  }
+
+  .modal input[type="email"]:focus,
+  .modal input[type="password"]:focus {
+    outline: none;
+    border: 2px solid #3a6cf6;
+    box-shadow: 0 0 0 2px #3a6cf655;
+    background: rgba(10, 30, 80, 0.70);
+  }
+
+  .modal button[type="submit"],
+  #close-login-modal {
+    background: linear-gradient(90deg, #ffad06 0%, #fff 100%);
+    color: #181818;
+    border: none;
+    border-radius: 20px;
+    padding: 0.8rem 2rem;
+    font-size: 1.1rem;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 1.2rem;
+    margin-bottom: 0.5rem;
+    transition: background 0.3s, color 0.3s;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    display: block;
+    width: 100%;
+  }
+
+  #close-login-modal {
+    position: absolute;
+    top: 18px;
+    right: 18px;
+    width: auto;
+    padding: 0.5rem 1.2rem;
+    font-size: 1rem;
+    background: #222;
+    color: #fff;
+    border-radius: 10px;
+    box-shadow: none;
+  }
+
+  .modal button[type="submit"]:hover,
+  #close-login-modal:hover {
+    background: linear-gradient(90deg, #fff 0%, #ffad06 100%);
+    color: #222;
+  }
+
+  .modal form {
+    margin-bottom: 1.5rem;
+  }
+
+  /* CV-modaali paperimaiseksi */
+  dialog.modal[open]:has(.section) {
+    background: linear-gradient(135deg, #f7f6f2 60%, #e9e7df 100%);
+    color: #222;
+    box-shadow: 0 8px 40px rgba(0,0,0,0.18);
+    border-radius: 16px;
+    max-width: 900px;
+    width: 95vw;
+    padding: 48px 48px 32px 48px;
+    font-family: 'Crimson Text', 'Georgia', serif;
+  }
+  dialog.modal[open]:has(.section) h2,
+  dialog.modal[open]:has(.section) h3 {
+    color: #222;
+    background: none;
+    -webkit-background-clip: unset;
+    background-clip: unset;
+  }
+  dialog.modal[open]:has(.section) hr {
+    border: none;
+    border-top: 2px solid #e0dcd2;
+    margin: 0.7em 0 1.2em 0;
+  }
+  dialog.modal[open]:has(.section) .section {
+    margin-bottom: 2.2em;
+  }
+  dialog.modal[open]:has(.section) ul {
+    margin-left: 1.2em;
+    margin-bottom: 0.7em;
+    color: #444;
+  }
+  dialog.modal[open]:has(.section) button {
+    background: #e9e7df;
+    color: #222;
+    border: 1px solid #d6d3c2;
+    border-radius: 10px;
+    padding: 0.6rem 1.5rem;
+    font-size: 1.1rem;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 1.2rem;
+    margin-bottom: 0.5rem;
+    transition: background 0.3s, color 0.3s;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    display: block;
+    width: 100%;
+  }
+  dialog.modal[open]:has(.section) button:hover {
+    background: #f7f6f2;
+    color: #181818;
+  }
+
+  @media (max-width: 600px) {
+    .modal {
+      padding: 16px 4vw 16px 4vw;
+      max-width: 98vw;
+    }
+    dialog.modal[open]:has(.section) {
+      padding: 16px 2vw 16px 2vw;
+      max-width: 99vw;
+    }
   }
 
