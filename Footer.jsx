@@ -5,7 +5,7 @@ import "./App.css";
 const randomFacts = [
   "I tried to achieve a Google Recaptha on this contact form, but it's not working. And after days and days of trying... Instead I made this carousel.",
   "Anyway, thank you for visiting my website. I hope you like it. I'm still working on it. I'm still learning. I'm still growing.",
-  "Currently, the website is CSS (45.7%), JavaScript (29.5%) and HTML (24.8%).",
+  "Currently, the website is JavaScript (60.5%), CSS (39.0%) and HTML (0.5%).",
   "Fun fact: I love writing novels as a hobby!",
   "React makes building UIs fun and modular.",
   "Did you know? This portfolio uses Vite for lightning-fast development.",
@@ -112,13 +112,11 @@ export default function Footer() {
                 <div className="quote" style={{ fontSize: "1.1rem", color: "#fff", minHeight: 60, transition: "opacity 0.5s" }}>
                   {randomFacts[currentFact]}
                 </div>
-                {randomFacts[currentFact] === "Currently, the website is JavaScript (61%) and CSS (39%)." && (
-                  <div className="tech-bar" style={{ marginTop: 16 }}>
-                    <div className="css"></div>
-                    <div className="js"></div>
-                    <div className="html"></div>
-                  </div>
-                )}
+                <div className="tech-bar" style={{ marginTop: 16 }}>
+                  <div className="css"></div>
+                  <div className="js"></div>
+                  <div className="html"></div>
+                </div>
               </div>
             </div>
           </div>
