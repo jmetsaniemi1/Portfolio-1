@@ -266,7 +266,7 @@ function Navigation({ onProjectsClick }) {
       setLoginError('Virhe palvelinyhteydessä.');
     }
   };
-  const handleRegisterSubmit = (e) => {
+  const handleRegisterSubmit = async (e) => {
     e.preventDefault();
     setRegisterError('');
     setRegisterSuccess('');
@@ -274,9 +274,22 @@ function Navigation({ onProjectsClick }) {
       setRegisterError('Täytä kaikki kentät.');
       return;
     }
-    // Simuloidaan onnistunutta rekisteröintiä
-    setRegisterSuccess('Rekisteröinti onnistui! (demo)');
-    setRegisterForm({ email: '', password: '' });
+    try {
+      const res = await fetch('https://portfolio-zvkt.onrender.com/api/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(registerForm)
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        setRegisterError(data.error || 'Rekisteröinti epäonnistui.');
+        return;
+      }
+      setRegisterSuccess('Rekisteröinti onnistui!');
+      setRegisterForm({ email: '', password: '' });
+    } catch (err) {
+      setRegisterError('Virhe palvelinyhteydessä.');
+    }
   };
 
   // Sulje modaali escillä
