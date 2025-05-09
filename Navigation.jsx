@@ -92,6 +92,21 @@ function Navigation({ onProjectsClick }) {
     }
   }, []);
 
+  // Lataa käyttäjä localStoragesta kun komponentti ladataan ja tarkista tokenin voimassaolo
+  useEffect(() => {
+    const savedUser = localStorage.getItem('user');
+    if (savedUser) {
+      const userObj = JSON.parse(savedUser);
+      const now = Date.now() / 1000; // sekunteina
+      if (userObj.exp && userObj.exp < now) {
+        setUser(null);
+        localStorage.removeItem('user');
+      } else {
+        setUser(userObj);
+      }
+    }
+  }, []);
+
   // Teeman vaihto
   const toggleTheme = () => {
     console.log("toggleTheme called, isDarkMode:", isDarkMode);
@@ -213,7 +228,7 @@ function Navigation({ onProjectsClick }) {
     setRegisterError('');
     setRegisterSuccess('');
   };
-  const handleLoginSubmit = (e) => {
+  const handleLoginSubmit = async (e) => {
     e.preventDefault();
     setLoginError('');
     setLoginSuccess('');
@@ -221,16 +236,35 @@ function Navigation({ onProjectsClick }) {
       setLoginError('Täytä kaikki kentät.');
       return;
     }
-    // Simuloidaan onnistunutta kirjautumista
-    setLoginSuccess('Kirjautuminen onnistui! (demo)');
-    setUser({ email: loginForm.email });
-    setLoginForm({ email: '', password: '' });
-    setTimeout(() => {
-      setIsLoginOpen(false);
-      setIsUserModalOpen(true);
-      document.body.classList.remove('modal-open');
-      document.body.classList.add('modal-open');
-    }, 800); // pieni viive, jotta "onnistui"-viesti näkyy
+    try {
+      const res = await fetch('https://portfolio-zvkt.onrender.com/api/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(loginForm)
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        setLoginError(data.error || 'Kirjautuminen epäonnistui.');
+        return;
+      }
+      setLoginSuccess('Kirjautuminen onnistui!');
+      const decoded = parseJwt(data.token);
+      const userData = { email: data.email, token: data.token };
+      if (decoded && decoded.exp) {
+        userData.exp = decoded.exp;
+      }
+      setUser(userData);
+      localStorage.setItem('user', JSON.stringify(userData));
+      setLoginForm({ email: '', password: '' });
+      setTimeout(() => {
+        setIsLoginOpen(false);
+        setIsUserModalOpen(true);
+        document.body.classList.remove('modal-open');
+        document.body.classList.add('modal-open');
+      }, 800);
+    } catch (err) {
+      setLoginError('Virhe palvelinyhteydessä.');
+    }
   };
   const handleRegisterSubmit = (e) => {
     e.preventDefault();
@@ -265,6 +299,7 @@ function Navigation({ onProjectsClick }) {
 
   const handleLogout = () => {
     setUser(null);
+    localStorage.removeItem('user');
     setIsUserModalOpen(false);
     setIsMenuOpen(false);
     document.body.classList.remove('modal-open');
@@ -283,14 +318,50 @@ function Navigation({ onProjectsClick }) {
   const closeDeleteConfirm = () => {
     setIsDeleteConfirmOpen(false);
   };
-  const handleDeleteAccount = () => {
-    // Demo: poista "tili"
-    setUser(null);
-    setIsDeleteConfirmOpen(false);
-    setIsUserModalOpen(false);
-    setIsMenuOpen(false);
-    document.body.classList.remove('modal-open');
+  const handleDeleteAccount = async () => {
+    const now = Date.now() / 1000;
+    if (user && user.exp && user.exp < now) {
+      setUser(null);
+      localStorage.removeItem('user');
+      setIsDeleteConfirmOpen(false);
+      setIsUserModalOpen(false);
+      setIsMenuOpen(false);
+      document.body.classList.remove('modal-open');
+      alert('Istuntosi on vanhentunut. Kirjaudu uudelleen.');
+      return;
+    }
+    try {
+      const res = await fetch('https://portfolio-zvkt.onrender.com/api/delete-account', {
+        method: 'DELETE',
+        headers: {
+          'Authorization': 'Bearer ' + user.token
+        }
+      });
+      const data = await res.json();
+      if (res.ok) {
+        setUser(null);
+        localStorage.removeItem('user');
+        setIsDeleteConfirmOpen(false);
+        setIsUserModalOpen(false);
+        setIsMenuOpen(false);
+        document.body.classList.remove('modal-open');
+        alert('Tili poistettu onnistuneesti.');
+      } else {
+        alert(data.message || 'Tilin poisto epäonnistui.');
+      }
+    } catch (err) {
+      alert('Virhe palvelinyhteydessä.');
+    }
   };
+
+  // JWT-tokenin purku
+  function parseJwt(token) {
+    try {
+      return JSON.parse(atob(token.split('.')[1]));
+    } catch (e) {
+      return null;
+    }
+  }
 
   return (
     <div className="navigation-wrapper">

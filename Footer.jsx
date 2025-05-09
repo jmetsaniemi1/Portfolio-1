@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./Footer.css";
 import "./App.css";
+import emailjs from '@emailjs/browser';
 
 const randomFacts = [
   "I tried to achieve a Google Recaptha on this contact form, but it's not working. And after days and days of trying... Instead I made this carousel.",
@@ -40,9 +41,24 @@ export default function Footer() {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (validate()) {
-      alert("Message sent! (demo)");
-      setForm({ name: "", email: "", message: "" });
-      setErrors({});
+      emailjs.send(
+        'service_1ya2q5h',      // Service ID
+        'template_4velrtj',     // Template ID
+        {
+          from_name: form.name,
+          from_email: form.email,
+          message: form.message,
+        },
+        'g78Bn0MtT9fyHrNST'     // Public key
+      )
+      .then(() => {
+        alert("Viesti lähetetty! Kiitos yhteydenotosta.");
+        setForm({ name: "", email: "", message: "" });
+        setErrors({});
+      }, (error) => {
+        alert("Viestin lähetys epäonnistui. Yritä myöhemmin uudelleen.");
+        console.error(error);
+      });
     }
   };
 
