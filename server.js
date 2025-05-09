@@ -10,7 +10,7 @@ app.use(cors());
 app.use(express.json());
 
 // MongoDB-yhteys
-mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connect(process.env.MONGO_URI);
 
 // Käyttäjämalli
 const userSchema = new mongoose.Schema({
@@ -65,62 +65,18 @@ app.delete('/api/delete-account', verifyToken, async (req, res) => {
 });
 
 // Kirjautuminen
-const handleLoginSubmit = async (e) => {
-    e.preventDefault();
-    setLoginError('');
-    setLoginSuccess('');
-    if (!loginForm.email || !loginForm.password) {
-      setLoginError('Täytä kaikki kentät.');
-      return;
-    }
-    try {
-      const res = await fetch('https://portfolio-zvkt.onrender.com/api/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(loginForm)
-      });
-      const data = await res.json();
-      if (!res.ok) {
-        setLoginError(data.error || 'Kirjautuminen epäonnistui.');
-        return;
-      }
-      setLoginSuccess('Kirjautuminen onnistui!');
-      setUser({ email: data.email, token: data.token });
-      setLoginForm({ email: '', password: '' });
-      setTimeout(() => {
-        setIsLoginOpen(false);
-        setIsUserModalOpen(true);
-        document.body.classList.remove('modal-open');
-        document.body.classList.add('modal-open');
-      }, 800);
-    } catch (err) {
-      setLoginError('Virhe palvelinyhteydessä.');
-    }
-  };
-  
-  // Rekisteröinti
-  const handleRegisterSubmit = async (e) => {
-    e.preventDefault();
-    setRegisterError('');
-    setRegisterSuccess('');
-    if (!registerForm.email || !registerForm.password) {
-      setRegisterError('Täytä kaikki kentät.');
-      return;
-    }
-    try {
-      const res = await fetch('https://portfolio-zvkt.onrender.com/api/register', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(registerForm)
-      });
-      const data = await res.json();
-      if (!res.ok) {
-        setRegisterError(data.error || 'Rekisteröinti epäonnistui.');
-        return;
-      }
-      setRegisterSuccess('Rekisteröinti onnistui!');
-      setRegisterForm({ email: '', password: '' });
-    } catch (err) {
-      setRegisterError('Virhe palvelinyhteydessä.');
-    }
-  };
+app.post('/api/login', async (req, res) => {
+  const { email, password } = req.body;
+  const user = await User.findOne({ email });
+  if (!user) return res.status(401).json({ error: 'Väärä sähköposti tai salasana.' });
+
+  const valid = await bcrypt.compare(password, user.passwordHash);
+  if (!valid) return res.status(401).json({ error: 'Väärä sähköposti tai salasana.' });
+
+  const token = jwt.sign({ email: user.email, id: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
+  res.json({ token, email: user.email });
+});
+
+// Portin kuuntelu Renderille
+const PORT = process.env.PORT || 10000;
+app.listen(PORT, "0.0.0.0", () => console.log(`🚀 Server running on port ${PORT}`));
