@@ -1,0 +1,29 @@
+.stock-ticker-container {
+  width: 100vw;
+  overflow: hidden;
+  background: #181c2a26;
+  color: #fff;
+  font-family: 'SF Pro Display', Arial, sans-serif;
+  font-size: 1.1rem;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+}
+
+.stock-ticker-marquee {
+  display: inline-block;
+  white-space: nowrap;
+  animation: ticker 30s linear infinite;
+  padding: 8px 0;
+}
+
+@keyframes ticker {
+  0% { transform: translateX(100vw); }
+  100% { transform: translateX(-100vw); }
+}
+
+.stock-ticker-item {
+  margin-right: 32px;
+  font-weight: bold;
+}

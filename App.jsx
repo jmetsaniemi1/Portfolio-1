@@ -11,6 +11,7 @@ import NothingForMoneyImage from "./assets/Images/NothingForMoney-project.png";
 import SpaceProjectImage from "./assets/Images/S.P.A.C.E-project.png"; 
 import MeImage from "./assets/Images/Me.png";
 import Footer from "./Footer";
+import StockTicker from "./StockTicker";
 
 function App() {
   const dialogRef = useRef(null);
@@ -46,6 +47,7 @@ function App() {
 
   return (
     <div style={{ minHeight: "300vh" }}>
+      <StockTicker />
       <Navigation onProjectsClick={openProjectsAndScroll} />
       <WelcomeText />
 

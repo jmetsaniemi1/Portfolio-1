@@ -1,8 +1,77 @@
 import React, { useState, useEffect, useRef } from "react";
 import "./Navigation.css";
-import lightModeVideo from "./assets/Images/Videos/lightmode_background_transition-2.mp4";
-import darkModeVideo from "./assets/Images/Videos/darkmode_background_transition-2.mp4";
+import lightModeVideo from "./assets/Images/Videos/lightmode.mp4";
+import darkModeVideo from "./assets/Images/Videos/darkmode.mp4";
 import GeneratedImage from "./assets/Images/Generated Image.png"; 
+import AdminPage from "./adminPage.jsx";
+
+function ProfileModal({ user, onClose, onAvatarUpdated }) {
+  const [avatar, setAvatar] = useState(null);
+  const [preview, setPreview] = useState(user?.avatarUrl ? user.avatarUrl : "");
+  const [uploading, setUploading] = useState(false);
+  const [error, setError] = useState("");
+
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    setAvatar(file);
+    if (file) {
+      setPreview(URL.createObjectURL(file));
+    }
+  };
+
+  const handleUpload = async (e) => {
+    e.preventDefault();
+    if (!avatar) return;
+    setUploading(true);
+    setError("");
+    try {
+      const formData = new FormData();
+      formData.append("avatar", avatar);
+      const token = user.token;
+      const res = await fetch("https://portfolio-zvkt.onrender.com/api/profile/avatar", {
+        method: "POST",
+        headers: { Authorization: "Bearer " + token },
+        body: formData,
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.message || "Upload failed");
+      setPreview(data.avatarUrl);
+      setAvatar(null);
+      if (onAvatarUpdated) onAvatarUpdated(data.avatarUrl);
+    } catch (err) {
+      setError(err.message || "Upload failed");
+    } finally {
+      setUploading(false);
+    }
+  };
+
+  return (
+    <>
+      <div className="modal-overlay" onClick={onClose}></div>
+      <div className="modal" tabIndex={-1} style={{ maxWidth: 400 }}>
+        <button id="close-profile-modal" onClick={onClose}>Close</button>
+        <h2 style={{ fontSize: "2rem" }}>Profile</h2>
+        <div className="user-content">
+          <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 16 }}>
+            <img
+              src={preview ? preview : "/assets/Images/placeholder-avatar.png"}
+              alt="Avatar"
+              style={{ width: 120, height: 120, borderRadius: "50%", objectFit: "cover", border: "2px solid #ffad06", marginBottom: 12 }}
+              onError={e => e.target.src = "/assets/Images/placeholder-avatar.png"}
+            />
+            <form onSubmit={handleUpload} style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 8 }}>
+              <input type="file" accept="image/*" onChange={handleFileChange} />
+              <button type="submit" disabled={uploading || !avatar} style={{ marginTop: 8 }}>
+                {uploading ? "Uploading..." : "Upload Avatar"}
+              </button>
+            </form>
+            {error && <div style={{ color: "#ff4444" }}>{error}</div>}
+          </div>
+        </div>
+      </div>
+    </>
+  );
+}
 
 function Navigation({ onProjectsClick }) {
   const [isDarkMode, setIsDarkMode] = useState(false);
@@ -18,79 +87,11 @@ function Navigation({ onProjectsClick }) {
   const [user, setUser] = useState(null);
   const [isUserModalOpen, setIsUserModalOpen] = useState(false);
   const [isDeleteConfirmOpen, setIsDeleteConfirmOpen] = useState(false);
+  const [isAdminModalOpen, setIsAdminModalOpen] = useState(false);
+  const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
   const loginModalRef = useRef(null);
   const cvModalRef = useRef(null);
-  const dayToNightVideoRef = useRef(null);
-  const nightToDayVideoRef = useRef(null);
   const offScreenMenuRef = useRef(null);
-
-  // Debug: Tarkista videoreferenssit ja DOM
-  useEffect(() => {
-    console.log("dayToNightVideoRef.current:", dayToNightVideoRef.current);
-    if (dayToNightVideoRef.current) {
-      console.log("DayToNight src:", dayToNightVideoRef.current.currentSrc);
-      console.log("DayToNight in DOM:", document.getElementById("dayToNight"));
-    }
-    console.log("nightToDayVideoRef.current:", nightToDayVideoRef.current);
-    if (nightToDayVideoRef.current) {
-      console.log("NightToDay src:", nightToDayVideoRef.current.currentSrc);
-      console.log("NightToDay in DOM:", document.getElementById("nightToDay"));
-    }
-  }, []);
-
-  // Teeman alustus ja videoiden latauksen varmistus
-  useEffect(() => {
-    const savedTheme = localStorage.getItem("theme");
-    console.log("Saved theme:", savedTheme);
-
-    const setupVideo = (videoRef, setTimeToEnd, name) => {
-      if (videoRef.current) {
-        console.log(`${name} video exists`);
-        videoRef.current.pause();
-        const onLoadedMetadata = () => {
-          console.log(`${name} loadedmetadata, duration:`, videoRef.current.duration);
-          if (setTimeToEnd) {
-            videoRef.current.currentTime = videoRef.current.duration || 0;
-            console.log(`${name} currentTime set to:`, videoRef.current.currentTime);
-          }
-        };
-        const onLoadedData = () => {
-          console.log(`${name} loadeddata, readyState:`, videoRef.current.readyState);
-        };
-        const onCanPlay = () => {
-          console.log(`${name} canplay, networkState:`, videoRef.current.networkState);
-        };
-        const onError = (e) => {
-          console.error(`${name} video error:`, e);
-          console.log(`${name} networkState:`, videoRef.current.networkState);
-        };
-        videoRef.current.addEventListener("loadedmetadata", onLoadedMetadata);
-        videoRef.current.addEventListener("loadeddata", onLoadedData);
-        videoRef.current.addEventListener("canplay", onCanPlay);
-        videoRef.current.addEventListener("error", onError);
-        return () => {
-          videoRef.current.removeEventListener("loadedmetadata", onLoadedMetadata);
-          videoRef.current.removeEventListener("loadeddata", onLoadedData);
-          videoRef.current.removeEventListener("canplay", onCanPlay);
-          videoRef.current.removeEventListener("error", onError);
-        };
-      } else {
-        console.warn(`${name} video ref not found`);
-      }
-    };
-
-    if (savedTheme === "dark") {
-      setIsDarkMode(true);
-      document.body.classList.add("darkmode");
-      setupVideo(dayToNightVideoRef, true, "DayToNight");
-      setupVideo(nightToDayVideoRef, false, "NightToDay");
-    } else {
-      setIsDarkMode(false);
-      document.body.classList.remove("darkmode");
-      setupVideo(nightToDayVideoRef, true, "NightToDay");
-      setupVideo(dayToNightVideoRef, false, "DayToNight");
-    }
-  }, []);
 
   // Lataa käyttäjä localStoragesta kun komponentti ladataan ja tarkista tokenin voimassaolo
   useEffect(() => {
@@ -128,46 +129,12 @@ function Navigation({ onProjectsClick }) {
     if (!isDarkMode) {
       // Vaihdetaan valoisasta tummaan
       console.log("Switching to dark mode");
-      if (dayToNightVideoRef.current) {
-        console.log("DayToNight video before play:", {
-          src: dayToNightVideoRef.current.currentSrc,
-          currentTime: dayToNightVideoRef.current.currentTime,
-          paused: dayToNightVideoRef.current.paused,
-          readyState: dayToNightVideoRef.current.readyState,
-          networkState: dayToNightVideoRef.current.networkState,
-        });
-        dayToNightVideoRef.current.currentTime = 0;
-        dayToNightVideoRef.current.play().then(() => {
-          console.log("DayToNight video playing");
-        }).catch((error) => {
-          console.error("DayToNight video play failed:", error);
-        });
-      } else {
-        console.warn("DayToNight video ref not found");
-      }
       document.body.classList.add("darkmode");
       localStorage.setItem("theme", "dark");
       setIsDarkMode(true);
     } else {
       // Vaihdetaan tummasta valoisaan
       console.log("Switching to light mode");
-      if (nightToDayVideoRef.current) {
-        console.log("NightToDay video before play:", {
-          src: nightToDayVideoRef.current.currentSrc,
-          currentTime: nightToDayVideoRef.current.currentTime,
-          paused: nightToDayVideoRef.current.paused,
-          readyState: nightToDayVideoRef.current.readyState,
-          networkState: nightToDayVideoRef.current.networkState,
-        });
-        nightToDayVideoRef.current.currentTime = 0;
-        nightToDayVideoRef.current.play().then(() => {
-          console.log("NightToDay video playing");
-        }).catch((error) => {
-          console.error("NightToDay video play failed:", error);
-        });
-      } else {
-        console.warn("NightToDay video ref not found");
-      }
       document.body.classList.remove("darkmode");
       localStorage.setItem("theme", "light");
       setIsDarkMode(false);
@@ -252,6 +219,9 @@ function Navigation({ onProjectsClick }) {
       const userData = { email: data.email, token: data.token };
       if (decoded && decoded.exp) {
         userData.exp = decoded.exp;
+      }
+      if (decoded && decoded.isAdmin) {
+        userData.isAdmin = true;
       }
       setUser(userData);
       localStorage.setItem('user', JSON.stringify(userData));
@@ -376,29 +346,38 @@ function Navigation({ onProjectsClick }) {
     }
   }
 
+  // Päivitä user-objektiin avatarUrl kun profiili päivitetään
+  const handleAvatarUpdated = (avatarUrl) => {
+    setUser((prev) => prev ? { ...prev, avatarUrl } : prev);
+    const saved = localStorage.getItem('user');
+    if (saved) {
+      const userObj = JSON.parse(saved);
+      userObj.avatarUrl = avatarUrl;
+      localStorage.setItem('user', JSON.stringify(userObj));
+    }
+  };
+
   return (
     <div className="navigation-wrapper">
       {/* Taustavideot */}
       <video
-        id="dayToNight"
-        className="background-video night-transition"
-        ref={dayToNightVideoRef}
-        preload="auto"
+        className="background-video light-bg"
+        src={lightModeVideo}
+        autoPlay
+        loop
         muted
         playsInline
-      >
-        <source src={lightModeVideo} type="video/mp4" />
-      </video>
+        style={{ opacity: isDarkMode ? 0 : 1, transition: 'opacity 1.2s' }}
+      />
       <video
-        id="nightToDay"
-        className="background-video day-transition"
-        ref={nightToDayVideoRef}
-        preload="auto"
+        className="background-video dark-bg"
+        src={darkModeVideo}
+        autoPlay
+        loop
         muted
         playsInline
-      >
-        <source src={darkModeVideo} type="video/mp4" />
-      </video>
+        style={{ opacity: isDarkMode ? 1 : 0, transition: 'opacity 1.2s' }}
+      />
 
       {/* Overlay ja login-modaali */}
       {isLoginOpen && (
@@ -554,6 +533,16 @@ function Navigation({ onProjectsClick }) {
               <div className="user-info">
                 <p>Rekisteröity sähköposti: <span id="user-email">{user?.email}</span></p>
               </div>
+              {/* Avatar-kuva ja profiilin muokkaus */}
+              <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 8 }}>
+                <img
+                  src={user?.avatarUrl ? user.avatarUrl : "/assets/Images/placeholder-avatar.png"}
+                  alt="Avatar"
+                  style={{ width: 100, height: 100, borderRadius: "50%", objectFit: "cover", border: "2px solid #ffad06" }}
+                  onError={e => e.target.src = "/assets/Images/placeholder-avatar.png"}
+                />
+                <button onClick={() => setIsProfileModalOpen(true)} style={{ marginTop: 8 }}>Edit profile</button>
+              </div>
               <button id="logout-btn" onClick={handleLogout}>Kirjaudu ulos</button>
               <br />
               <p>Voit myös poistaa tilisi.</p>
@@ -578,47 +567,74 @@ function Navigation({ onProjectsClick }) {
               )}
             </div>
           </div>
+          {/* Profiilimodaali */}
+          {isProfileModalOpen && (
+            <ProfileModal user={user} onClose={() => setIsProfileModalOpen(false)} onAvatarUpdated={handleAvatarUpdated} />
+          )}
+        </>
+      )}
+      {/* Admin-modaali: */}
+      {isAdminModalOpen && (
+        <>
+          <div
+            className="modal-overlay"
+            onClick={() => setIsAdminModalOpen(false)}
+            onWheel={e => e.preventDefault()}
+            onTouchMove={e => e.preventDefault()}
+          ></div>
+          <div className="modal" tabIndex={-1}>
+            <button id="close-admin-modal" onClick={() => setIsAdminModalOpen(false)}>Sulje</button>
+            <AdminPage />
+          </div>
         </>
       )}
 
       {/* Off-screen-valikko */}
-      <div className={`off-screen-menu ${isMenuOpen ? "active" : ""}`} ref={offScreenMenuRef}>
-        <ul>
-          <img src={GeneratedImage} alt="Generated Image" /> {/* Korjattu src */}
-          <li>
+<div className={`off-screen-menu ${isMenuOpen ? "active" : ""}`} ref={offScreenMenuRef}>
+  <ul>
+    <img src={GeneratedImage} alt="Generated Image" /> {/* Korjattu src */}
+    <li>
             {user ? (
               <button id="open-user-modal" onClick={openUserModal}>
                 MY PAGE
               </button>
             ) : (
-              <button id="open-login-modal" onClick={openLoginModal}>
-                LOGIN
-              </button>
+      <button id="open-login-modal" onClick={openLoginModal}>
+        LOGIN
+      </button>
             )}
-          </li>
-          <li>
-            <a href="#">FRONT PAGE</a>
-          </li>
-          <li>
-            <button
-              type="button"
-              onClick={() => {
-                if (onProjectsClick) onProjectsClick();
-                setIsMenuOpen(false); // sulje valikko
-              }}>
-              PROJECTS
-            </button>
-          </li>
-          <li>
-            <button id="open-modal" onClick={openCvModal}>
-              CV
-            </button>
-          </li>
-          <li>
-            <a href="#CONTACT">CONTACT</a>
-          </li>
-        </ul>
-      </div>
+    </li>
+    <li>
+      <a href="#">FRONT PAGE</a>
+    </li>
+    <li>
+      <button
+        type="button"
+        onClick={() => {
+          if (onProjectsClick) onProjectsClick();
+          setIsMenuOpen(false); // sulje valikko
+        }}>
+        PROJECTS
+      </button>
+    </li>
+    <li>
+      <button id="open-modal" onClick={openCvModal}>
+        CV
+      </button>
+    </li>
+    <li>
+      <a href="#CONTACT">CONTACT</a>
+    </li>
+    {/* Admin-nappi vain adminille */}
+    {user && user.isAdmin && (
+      <li>
+        <button id="open-admin-modal" onClick={() => setIsAdminModalOpen(true)}>
+          ADMIN
+        </button>
+      </li>
+    )}
+  </ul>
+</div>
 
       {/* Navigaatio */}
       <nav>

@@ -1,0 +1,44 @@
+.modal {
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: rgba(18, 24, 38, 0.98);
+  color: #fff;
+  border-radius: 25px;
+  box-shadow: 0 4px 32px rgba(0,0,0,0.25);
+  padding: 40px 32px 32px 32px;
+  max-width: 600px;
+  width: 95vw;
+  font-family: 'SF Pro Display', 'Helvetica Neue', Arial, sans-serif;
+  border: none;
+  outline: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  overflow-y: auto;
+  max-height: 90vh;
+  overscroll-behavior: contain;
+}
+
+.user-content {
+  margin-top: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.2rem;
+}
+
+.user-info {
+  background: rgba(30,40,60,0.18);
+  border-radius: 10px;
+  padding: 0.7em 1.2em;
+  margin-bottom: 1em;
+  color: #ffad06;
+  font-size: 1.1rem;
+}
+
+.button-container {
+  display: flex;
+  gap: 16px;
+  margin-top: 24px;
+  justify-content: center;
+}
