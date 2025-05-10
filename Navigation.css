@@ -73,6 +73,7 @@
     flex-direction: column;
     justify-content: space-between;
     cursor: pointer;
+    margin-top: 50px;
   }
   
   .ham-menu span {
@@ -155,6 +156,19 @@
   
     #theme-switch {
       font-size: 0.9em;
+    }
+  }
+  
+  @media (max-width: 600px) {
+    nav {
+      top: 90px;
+      right: 1rem;
+    }
+    .ham-menu {
+      margin-top: 24px;
+    }
+    #theme-switch {
+      top: 70px;
     }
   }
   

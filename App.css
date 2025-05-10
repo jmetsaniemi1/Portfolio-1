@@ -378,15 +378,18 @@ li {
   }
 }
 
-@media screen and (max-width: 600px) {
+@media (max-width: 600px) {
   .about-section, .footer-container {
-    max-width: 80vw !important;
-    width: 80vw !important;
-    margin: 0 auto !important;
-    display: block !important;
+    margin-left: auto;
+    margin-right: auto;
     text-align: center;
-    padding-left: 0.5rem;
-    padding-right: 0.5rem;
+    width: 100vw;
+    max-width: 100vw;
+    box-sizing: border-box;
+  }
+  .about-content {
+    flex-direction: column;
+    align-items: center;
   }
 }
 

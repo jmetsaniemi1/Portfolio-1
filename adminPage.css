@@ -19,6 +19,28 @@
   overscroll-behavior: contain;
 }
 
+@media (max-width: 600px) {
+    .modal {
+      max-width: 98vw;
+      padding: 24px 6px 16px 6px;
+      font-size: 0.98rem;
+    }
+    .user-content {
+      gap: 0.7rem;
+    }
+    .button-container {
+      flex-direction: column;
+      gap: 10px;
+    }
+    #close-admin-modal {
+      width: 90px;
+      font-size: 1rem;
+      margin-bottom: 1rem;
+    }
+  }
+  // ... olemassa oleva css ...
+  
+
 .user-content {
   margin-top: 1.5rem;
   display: flex;
