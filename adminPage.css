@@ -15,7 +15,7 @@
   flex-direction: column;
   gap: 0;
   overflow-y: auto;
-  max-height: 90vh;
+  height: 900px;
   overscroll-behavior: contain;
 }
 
