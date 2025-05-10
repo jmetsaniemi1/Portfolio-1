@@ -42,3 +42,22 @@
   margin-top: 24px;
   justify-content: center;
 }
+
+#close-admin-modal {
+  width: 100px;
+  padding: 0.5em 0;
+  background: #ffad06;
+  color: #181c2a;
+  border: none;
+  border-radius: 8px;
+  font-size: 1.1rem;
+  font-weight: bold;
+  cursor: pointer;
+  margin-bottom: 1.5rem;
+  align-self: flex-end;
+  transition: background 0.2s, color 0.2s;
+}
+#close-admin-modal:hover {
+  background: #ffd95e;
+  color: #181c2a;
+}
