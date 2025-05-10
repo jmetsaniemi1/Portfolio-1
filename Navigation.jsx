@@ -93,6 +93,8 @@ function Navigation({ onProjectsClick }) {
   const cvModalRef = useRef(null);
   const offScreenMenuRef = useRef(null);
 
+  console.log("Navigation user:", user); // Debug: tulosta user-tila
+
   // Lataa käyttäjä localStoragesta kun komponentti ladataan ja tarkista tokenin voimassaolo
   useEffect(() => {
     const savedUser = localStorage.getItem('user');
@@ -106,6 +108,20 @@ function Navigation({ onProjectsClick }) {
         setUser(userObj);
       }
     }
+  }, []);
+
+  // Päivitä user-tila jos localStorage muuttuu (esim. toisessa välilehdessä)
+  useEffect(() => {
+    const onStorage = () => {
+      const savedUser = localStorage.getItem('user');
+      if (savedUser) {
+        setUser(JSON.parse(savedUser));
+      } else {
+        setUser(null);
+      }
+    };
+    window.addEventListener('storage', onStorage);
+    return () => window.removeEventListener('storage', onStorage);
   }, []);
 
   // Teeman vaihto
