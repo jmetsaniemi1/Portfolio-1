@@ -1,5 +1,6 @@
 .stock-ticker-container {
-  width: 100vw;
+  width: calc(100vw - 260px);
+  margin: 0 auto;
   overflow: hidden;
   background: #181c2a26;
   color: #fff;
@@ -8,7 +9,26 @@
   position: fixed;
   top: 0;
   left: 0;
+  right: 0;
   z-index: 1000;
+  border-radius: 0 0 18px 18px;
+}
+
+@media (max-width: 900px) {
+  .stock-ticker-container {
+    width: calc(100vw - 32px);
+    margin-left: 16px;
+    margin-right: 16px;
+  }
+}
+
+@media (max-width: 600px) {
+  .stock-ticker-container {
+    width: 98vw;
+    margin-left: 1vw;
+    margin-right: 1vw;
+    border-radius: 0 0 10px 10px;
+  }
 }
 
 .stock-ticker-marquee {

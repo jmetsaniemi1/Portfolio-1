@@ -49,7 +49,6 @@
     cursor: pointer;
     transition: border-color 0.25s, box-shadow 0.4s;
     position:fixed;
-    top: 50px;
     left: 1rem;
     /* Glow lightmodessa (tumma) */
     box-shadow: 0 0 16px 2px rgba(30,30,40,0.35);
@@ -73,7 +72,6 @@
     flex-direction: column;
     justify-content: space-between;
     cursor: pointer;
-    margin-top: 50px;
   }
   
   .ham-menu span {
@@ -93,14 +91,14 @@
   
   /* Off-screen-valikko */
   .off-screen-menu {
-    position: fixed; /* Kiinnittää valikon näkymäalueeseen */
-    top: 0; /* Valikko alkaa yläreunasta */
-    right: 0; /* Valikko on oikeassa reunassa */
-    height: 100vh; /* Kattaa koko näkymäalueen korkeuden */
-    width: 150px; /* Valikon leveys */
-    transform: translateX(100%); /* Piilossa oikeassa reunassa aluksi */
-    transition: transform 0.3s ease; /* Sulava siirtymä */
-    z-index: 1000; /* Päällä, mutta navin ja modaalin alla */
+    position: fixed;
+    top: 0;
+    right: 20px;
+    height: 100vh;
+    width: 150px;
+    transform: translateX(100%);
+    transition: transform 0.3s ease;
+    z-index: 1000;
   }
   
   .off-screen-menu.active {
@@ -165,10 +163,30 @@
       right: 1rem;
     }
     .ham-menu {
-      margin-top: 24px;
     }
     #theme-switch {
+    }
+    .off-screen-menu {
+      width: 98vw;
+      right: 1vw;
+    }
+  }
+  
+  @media (max-width: 900px) and (min-width: 601px) {
+    nav {
+      top: 90px;
+      right: 1rem;
+    }
+    
+    #theme-switch {
       top: 70px;
+    }
+  }
+  
+  @media (max-width: 900px) {
+    .off-screen-menu {
+      width: 180px;
+      right: 10px;
     }
   }
   
@@ -387,4 +405,84 @@ html.modal-open {
   gap: 16px;
   margin-top: 24px;
   justify-content: center;
+}
+
+
+
+
+/* Calculator-modalin sirompi tyyli */
+#close-calc-modal {
+  width: 70px;
+  padding: 0.3em 0;
+  background: #ffad06;
+  color: #181c2a;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  font-weight: bold;
+  cursor: pointer;
+  margin-bottom: 1rem;
+  align-self: flex-end;
+  transition: background 0.2s, color 0.2s;
+}
+#close-calc-modal:hover {
+  background: #ffd95e;
+  color: #181c2a;
+}
+
+.calculator-modal {
+  max-width: 320px !important;
+  min-width: 220px;
+  max-height: 380px;
+  overflow-y: auto;
+  padding: 12px 6px 12px 6px !important;
+  font-size: 0.93rem !important;
+  border-radius: 16px !important;
+}
+.calculator-modal h2 {
+  font-size: 1.1rem !important;
+  margin-bottom: 0.5em;
+}
+.calculator-modal input[type="text"] {
+  font-size: 1rem !important;
+  padding: 0.2em 0.4em;
+  border-radius: 8px;
+  border: 1px solid #ffad06;
+  margin-bottom: 4px;
+}
+.calculator-modal button {
+  font-size: 0.95rem !important;
+  padding: 0.2em 0.4em !important;
+  border-radius: 8px !important;
+  min-width: 28px;
+  min-height: 28px;
+  margin: 0;
+}
+.calculator-modal .user-content {
+  gap: 0.3rem;
+}
+
+@media (max-width: 900px) {
+  .calculator-modal {
+    max-width: 90vw !important;
+    font-size: 0.91rem !important;
+  }
+  .calculator-modal button {
+    min-width: 24px;
+    min-height: 24px;
+    font-size: 0.91rem !important;
+  }
+}
+@media (max-width: 600px) {
+  .calculator-modal {
+    max-width: 98vw !important;
+    min-width: 0;
+    padding: 10px 2vw 10px 2vw !important;
+    font-size: 0.89rem !important;
+  }
+  .calculator-modal button {
+    min-width: 20px;
+    min-height: 20px;
+    font-size: 0.89rem !important;
+  }
 }

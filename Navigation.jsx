@@ -73,6 +73,59 @@ function ProfileModal({ user, onClose, onAvatarUpdated }) {
   );
 }
 
+function CalculatorModal({ onClose }) {
+  const [input, setInput] = useState("");
+  const [result, setResult] = useState("");
+
+  const handleButtonClick = (val) => {
+    setInput((prev) => prev + val);
+  };
+  const handleClear = () => {
+    setInput("");
+    setResult("");
+  };
+  const handleCalculate = () => {
+    try {
+      // eslint-disable-next-line no-eval
+      const res = eval(input);
+      setResult(res);
+    } catch {
+      setResult("Error");
+    }
+  };
+
+  return (
+    <>
+      <div className="modal-overlay" onClick={onClose}></div>
+      <div className="modal calculator-modal" tabIndex={-1} style={{ maxWidth: 340 }}>
+        <button id="close-calc-modal" onClick={onClose}>Close</button>
+        <h2 style={{ fontSize: "2rem" }}>Calculator</h2>
+        <div className="user-content">
+          <input
+            type="text"
+            value={input}
+            readOnly
+            style={{ width: "50%", fontSize: "1.3rem", textAlign: "right", marginBottom: 8 }}
+          />
+          <div style={{ fontSize: "1.2rem", minHeight: 24, color: result === "Error" ? "#ff4444" : "#ffad06" }}>
+            {result !== "" && (result === "Error" ? "Error" : `= ${result}`)}
+          </div>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 8, marginTop: 12 }}>
+            {["7","8","9","/","4","5","6","*","1","2","3","-","0",".","C","+"].map((val) =>
+              val === "C" ? (
+                <button key={val} onClick={handleClear} style={{ background: "#ffad06", color: "#181c2a" }}>C</button>
+              ) : (
+                <button key={val} onClick={() => handleButtonClick(val)}>{val}</button>
+              )
+            )}
+            <button style={{ gridColumn: "span 4", background: "#ffad06", color: "#181c2a" }} onClick={handleCalculate}>=</button>
+          </div>
+        </div>
+      </div>
+    </>
+  );
+}
+
 function Navigation({ onProjectsClick }) {
   const [isDarkMode, setIsDarkMode] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -89,6 +142,7 @@ function Navigation({ onProjectsClick }) {
   const [isDeleteConfirmOpen, setIsDeleteConfirmOpen] = useState(false);
   const [isAdminModalOpen, setIsAdminModalOpen] = useState(false);
   const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
+  const [isCalcModalOpen, setIsCalcModalOpen] = useState(false);
   const loginModalRef = useRef(null);
   const cvModalRef = useRef(null);
   const offScreenMenuRef = useRef(null);
@@ -606,51 +660,56 @@ function Navigation({ onProjectsClick }) {
       )}
 
       {/* Off-screen-valikko */}
-<div className={`off-screen-menu ${isMenuOpen ? "active" : ""}`} ref={offScreenMenuRef}>
-  <ul>
-    <img src={GeneratedImage} alt="Generated Image" /> {/* Korjattu src */}
-    <li>
+      <div className={`off-screen-menu ${isMenuOpen ? "active" : ""}`} ref={offScreenMenuRef}>
+        <ul>
+          <img src={GeneratedImage} alt="Generated Image" /> {/* Korjattu src */}
+          <li>
             {user ? (
               <button id="open-user-modal" onClick={openUserModal}>
                 MY PAGE
               </button>
             ) : (
-      <button id="open-login-modal" onClick={openLoginModal}>
-        LOGIN
-      </button>
+              <button id="open-login-modal" onClick={openLoginModal}>
+                LOGIN
+              </button>
             )}
-    </li>
-    <li>
-      <a href="#">FRONT PAGE</a>
-    </li>
-    <li>
-      <button
-        type="button"
-        onClick={() => {
-          if (onProjectsClick) onProjectsClick();
-          setIsMenuOpen(false); // sulje valikko
-        }}>
-        PROJECTS
-      </button>
-    </li>
-    <li>
-      <button id="open-modal" onClick={openCvModal}>
-        CV
-      </button>
-    </li>
-    <li>
-      <a href="#CONTACT">CONTACT</a>
-    </li>
-    {/* Admin-nappi vain adminille */}
-    {user && user.isAdmin && (
-      <li>
-        <button id="open-admin-modal" onClick={() => setIsAdminModalOpen(true)}>
-          ADMIN
-        </button>
-      </li>
-    )}
-  </ul>
-</div>
+          </li>
+          <li>
+            <a href="#">FRONT PAGE</a>
+          </li>
+          <li>
+            <button
+              type="button"
+              onClick={() => {
+                if (onProjectsClick) onProjectsClick();
+                setIsMenuOpen(false); // sulje valikko
+              }}>
+              PROJECTS
+            </button>
+          </li>
+          <li>
+            <button id="open-modal" onClick={openCvModal}>
+              CV
+            </button>
+          </li>
+          <li>
+            <a href="#CONTACT">CONTACT</a>
+          </li>
+          <li>
+            <button id="open-calc-modal" onClick={() => setIsCalcModalOpen(true)}>
+              CALCULATOR
+            </button>
+          </li>
+          {/* Admin-nappi vain adminille */}
+          {user && user.isAdmin && (
+            <li>
+              <button id="open-admin-modal" onClick={() => setIsAdminModalOpen(true)}>
+                ADMIN
+              </button>
+            </li>
+          )}
+        </ul>
+      </div>
 
       {/* Navigaatio */}
       <nav>
@@ -684,6 +743,11 @@ function Navigation({ onProjectsClick }) {
           <span></span>
         </div>
       </nav>
+
+      {/* Calculator-modaali */}
+      {isCalcModalOpen && (
+        <CalculatorModal onClose={() => setIsCalcModalOpen(false)} />
+      )}
     </div>
   );
 }
