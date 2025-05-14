@@ -107,7 +107,7 @@ export default function AdminPage() {
                         : "Make admin"}
                     </button>
                     <button
-                      style={{ background: "#ff4444", color: "#fff", borderRadius: 8, padding: "0.4em 1em", border: "none", cursor: "pointer" }}
+                      style={{ background: "#ff4444", color: "#fff", borderRadius: 8, padding: "0.4em 1em", border: "none", cursor: "pointer", marginLeft: "auto" }}
                       onClick={() => handleDelete(user._id)}
                       disabled={deleting === user._id}
                     >

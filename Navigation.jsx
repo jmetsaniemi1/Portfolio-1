@@ -97,30 +97,220 @@ function CalculatorModal({ onClose }) {
   return (
     <>
       <div className="modal-overlay" onClick={onClose}></div>
-      <div className="modal calculator-modal" tabIndex={-1} style={{ maxWidth: 340 }}>
-        <button id="close-calc-modal" onClick={onClose}>Close</button>
-        <h2 style={{ fontSize: "2rem" }}>Calculator</h2>
-        <div className="user-content">
+      <div className="modal calculator-modal" tabIndex={-1}>
+        <button id="close-calc-modal" className="modal-close-btn" onClick={onClose}>Close</button>
+        <h2 className="modal-title">Calculator</h2>
+        <div className="calc-content">
           <input
             type="text"
             value={input}
             readOnly
-            style={{ width: "50%", fontSize: "1.3rem", textAlign: "right", marginBottom: 8 }}
+            className="calc-input"
           />
-          <div style={{ fontSize: "1.2rem", minHeight: 24, color: result === "Error" ? "#ff4444" : "#ffad06" }}>
+          <div className="calc-result">
             {result !== "" && (result === "Error" ? "Error" : `= ${result}`)}
           </div>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 8, marginTop: 12 }}>
+          <div className="calc-buttons">
             {["7","8","9","/","4","5","6","*","1","2","3","-","0",".","C","+"].map((val) =>
               val === "C" ? (
-                <button key={val} onClick={handleClear} style={{ background: "#ffad06", color: "#181c2a" }}>C</button>
+                <button key={val} onClick={handleClear} className="calc-btn calc-btn-clear">C</button>
               ) : (
-                <button key={val} onClick={() => handleButtonClick(val)}>{val}</button>
+                <button key={val} onClick={() => handleButtonClick(val)} className="calc-btn">{val}</button>
               )
             )}
-            <button style={{ gridColumn: "span 4", background: "#ffad06", color: "#181c2a" }} onClick={handleCalculate}>=</button>
+            <button className="calc-btn calc-btn-equals" onClick={handleCalculate}>=</button>
           </div>
         </div>
+      </div>
+    </>
+  );
+}
+
+function WatchModal({ onClose }) {
+  const [tab, setTab] = useState("clock");
+  // Clock
+  const [time, setTime] = useState(new Date());
+  useEffect(() => {
+    if (tab !== "clock") return;
+    const interval = setInterval(() => setTime(new Date()), 1000);
+    return () => clearInterval(interval);
+  }, [tab]);
+  // Timer
+  const [timer, setTimer] = useState(0);
+  const [timerRunning, setTimerRunning] = useState(false);
+  const [timerHours, setTimerHours] = useState("");
+  const [timerMinutes, setTimerMinutes] = useState("");
+  const [timerSeconds, setTimerSeconds] = useState("");
+  const [timerCentiseconds, setTimerCentiseconds] = useState("");
+  useEffect(() => {
+    if (tab !== "timer" || !timerRunning) return;
+    if (timer <= 0) { setTimerRunning(false); return; }
+    const interval = setInterval(() => setTimer((t) => t - 1), 10); // 10ms välein
+    return () => clearInterval(interval);
+  }, [tab, timerRunning, timer]);
+  // Stopwatch: sadasosat
+  const [sw, setSw] = useState(0); // sadasosasekunteina (0.01s)
+  const [swRunning, setSwRunning] = useState(false);
+  useEffect(() => {
+    if (tab !== "stopwatch" || !swRunning) return;
+    const interval = setInterval(() => setSw((t) => t + 1), 10); // 10ms välein
+    return () => clearInterval(interval);
+  }, [tab, swRunning]);
+  // Helpers
+  const format = (s) => {
+    const h = Math.floor(s/360000).toString().padStart(2,"0");
+    const m = Math.floor((s/6000)%60).toString().padStart(2,"0");
+    const ss = Math.floor((s/100)%60).toString().padStart(2,"0");
+    const cs = (s%100).toString().padStart(2,"0");
+    return `${h}:${m}:${ss}.${cs}`;
+  };
+  return (
+    <>
+      <div className="modal-overlay" onClick={onClose}></div>
+      <div className="modal calculator-modal" tabIndex={-1}>
+        <button id="close-watch-modal" className="modal-close-btn" onClick={onClose}>Close</button>
+        <h2 className="modal-title">WATCH</h2>
+        <div className="watch-tabs">
+          <button onClick={() => setTab("clock")} className={tab==="clock"?"watch-tab active":"watch-tab"}>Current Time</button>
+          <button onClick={() => setTab("timer")} className={tab==="timer"?"watch-tab active":"watch-tab"}>Timer</button>
+          <button onClick={() => setTab("stopwatch")} className={tab==="stopwatch"?"watch-tab active":"watch-tab"}>Stopwatch</button>
+        </div>
+        <div className="watch-content">
+          {tab === "clock" && (
+            <>
+              <div className="watch-time">{time.toLocaleTimeString()}</div>
+              <div className="watch-desc-main">Current time is updated every second using setInterval and React state. The component re-renders on every tick.</div>
+              <div className="watch-desc-tech">Implementation: useEffect sets up a 1s interval, which updates a Date state. UI updates automatically when state changes.</div>
+            </>
+          )}
+          {tab === "timer" && (
+            <>
+              <div className="watch-time">{format(timer)}</div>
+              <div style={{ display: 'flex', gap: 8, justifyContent: 'center', marginBottom: 8 }}>
+                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                  <label style={{ fontSize: '0.8rem' }}>HOUR</label>
+                  <input type="number" min="0" max="99" value={timerHours} placeholder="" onChange={e => {
+                    const val = e.target.value;
+                    if (val === "") setTimerHours("");
+                    else setTimerHours(Math.max(0, Math.min(99, Number(val))));
+                  }} className="watch-timer-input" style={{ width: 48 }} />
+                </div>
+                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                  <label style={{ fontSize: '0.8rem' }}>MIN</label>
+                  <input type="number" min="0" max="59" value={timerMinutes} placeholder="" onChange={e => {
+                    const val = e.target.value;
+                    if (val === "") setTimerMinutes("");
+                    else setTimerMinutes(Math.max(0, Math.min(59, Number(val))));
+                  }} className="watch-timer-input" style={{ width: 48 }} />
+                </div>
+                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                  <label style={{ fontSize: '0.8rem' }}>SEC</label>
+                  <input type="number" min="0" max="59" value={timerSeconds} placeholder="" onChange={e => {
+                    const val = e.target.value;
+                    if (val === "") setTimerSeconds("");
+                    else setTimerSeconds(Math.max(0, Math.min(59, Number(val))));
+                  }} className="watch-timer-input" style={{ width: 48 }} />
+                </div>
+                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                  <label style={{ fontSize: '0.8rem' }}>CS</label>
+                  <input type="number" min="0" max="99" value={timerCentiseconds} placeholder="" onChange={e => {
+                    const val = e.target.value;
+                    if (val === "") setTimerCentiseconds("");
+                    else setTimerCentiseconds(Math.max(0, Math.min(99, Number(val))));
+                  }} className="watch-timer-input" style={{ width: 48 }} />
+                </div>
+              </div>
+              <div className="watch-timer-buttons">
+                <button onClick={() => {
+                  const h = timerHours === "" ? 0 : Number(timerHours);
+                  const m = timerMinutes === "" ? 0 : Number(timerMinutes);
+                  const s = timerSeconds === "" ? 0 : Number(timerSeconds);
+                  const cs = timerCentiseconds === "" ? 0 : Number(timerCentiseconds);
+                  const total = h*360000 + m*6000 + s*100 + cs;
+                  setTimer(total);
+                  setTimerRunning(false);
+                }}>Set</button>
+                <button onClick={() => setTimerRunning(true)} disabled={timer<=0}>Start</button>
+                <button onClick={() => setTimerRunning(false)}>Pause</button>
+                <button onClick={() => { setTimer(0); setTimerRunning(false); }}>Reset</button>
+              </div>
+              <div className="watch-desc-main">Timer counts down every 0.01 seconds using setInterval and React state. When timer reaches zero, it stops automatically.</div>
+              <div className="watch-desc-tech">Implementation: useEffect sets up a 10ms interval when running. State is decremented, UI updates on state change. Time is formatted as hh:mm:ss.cs.</div>
+            </>
+          )}
+          {tab === "stopwatch" && (
+            <>
+              <div className="watch-time">{format(sw)}</div>
+              <div className="watch-timer-buttons">
+                <button onClick={() => setSwRunning(true)}>Start</button>
+                <button onClick={() => setSwRunning(false)}>Stop</button>
+                <button onClick={() => { setSw(0); setSwRunning(false); }}>Reset</button>
+              </div>
+              <div className="watch-desc-main">Stopwatch increments every 0.01 seconds using setInterval and React state. You can start, stop and reset the counter.</div>
+              <div className="watch-desc-tech">Implementation: useEffect sets up a 10ms interval when running. State is incremented, UI updates on state change. Time is formatted as mm:ss.ss.</div>
+            </>
+          )}
+        </div>
+      </div>
+    </>
+  );
+}
+
+function ToDoModal({ onClose }) {
+  const [tasks, setTasks] = useState(() => {
+    const saved = localStorage.getItem('todo-tasks');
+    return saved ? JSON.parse(saved) : [];
+  });
+  const [input, setInput] = useState("");
+
+  useEffect(() => {
+    localStorage.setItem('todo-tasks', JSON.stringify(tasks));
+  }, [tasks]);
+
+  const addTask = () => {
+    if (input.trim() === "") return;
+    setTasks([...tasks, { text: input.trim(), done: false, id: Date.now() }]);
+    setInput("");
+  };
+  const toggleTask = (id) => {
+    setTasks(tasks.map(t => t.id === id ? { ...t, done: !t.done } : t));
+  };
+  const deleteTask = (id) => {
+    setTasks(tasks.filter(t => t.id !== id));
+  };
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter") addTask();
+  };
+
+  return (
+    <>
+      <div className="modal-overlay" onClick={onClose}></div>
+      <div className="modal calculator-modal" tabIndex={-1}>
+        <button className="modal-close-btn" onClick={onClose}>Close</button>
+        <h2 className="modal-title">TO-DO</h2>
+        <div style={{ display: 'flex', gap: 8, marginBottom: 16 }}>
+          <input
+            type="text"
+            value={input}
+            onChange={e => setInput(e.target.value)}
+            onKeyDown={handleKeyDown}
+            placeholder="Add a new task..."
+            style={{ flex: 1, borderRadius: 8, border: '1px solid #ffad06', padding: '0.4em 1em', fontSize: '1.1rem' }}
+          />
+          <button onClick={addTask} style={{ borderRadius: 8, background: '#ffad06', color: '#222', fontWeight: 'bold', border: 'none', padding: '0.4em 1.2em', fontSize: '1.1rem' }}>Add</button>
+        </div>
+        <ul style={{ listStyle: 'none', padding: 0, margin: 0, maxHeight: 180, overflowY: 'auto' }}>
+          {tasks.length === 0 && <li style={{ color: '#888', textAlign: 'center', marginTop: 16 }}>No tasks yet.</li>}
+          {tasks.map(task => (
+            <li key={task.id} style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 6 }}>
+              <input type="checkbox" checked={task.done} onChange={() => toggleTask(task.id)} />
+              <span style={{ textDecoration: task.done ? 'line-through' : 'none', color: task.done ? '#888' : '#fff', flex: 1 }}>{task.text}</span>
+              <button onClick={() => deleteTask(task.id)} style={{ background: '#ff4444', color: '#fff', border: 'none', borderRadius: 6, padding: '0.2em 0.8em', fontSize: '1rem', cursor: 'pointer' }}>Delete</button>
+            </li>
+          ))}
+        </ul>
+        <div className="watch-desc-main" style={{ marginTop: 18 }}>This is a classic to-do app implemented as a modal. You can add, mark as done, and delete tasks. All tasks are saved to your browser's localStorage.</div>
+        <div className="watch-desc-tech">Technical: This modal demonstrates basic CRUD operations (Create, Read, Update, Delete) using React state and localStorage for persistence. No backend is required. The component uses useState and useEffect hooks for state and storage management.</div>
       </div>
     </>
   );
@@ -143,6 +333,8 @@ function Navigation({ onProjectsClick }) {
   const [isAdminModalOpen, setIsAdminModalOpen] = useState(false);
   const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
   const [isCalcModalOpen, setIsCalcModalOpen] = useState(false);
+  const [isWatchModalOpen, setIsWatchModalOpen] = useState(false);
+  const [isToDoModalOpen, setIsToDoModalOpen] = useState(false);
   const loginModalRef = useRef(null);
   const cvModalRef = useRef(null);
   const offScreenMenuRef = useRef(null);
@@ -582,7 +774,7 @@ function Navigation({ onProjectsClick }) {
               <hr />
               <p>Available upon request. LOL.</p>
             </div>
-            <button onClick={closeCvModal}>Sulje</button>
+            <button onClick={closeCvModal}>Close</button>
           </div>
         </>
       )}
@@ -596,12 +788,12 @@ function Navigation({ onProjectsClick }) {
             onTouchMove={e => e.preventDefault()}
           ></div>
           <div className="modal" tabIndex={-1}>
-            <button id="close-user-modal" onClick={closeUserModal}>Sulje</button>
-            <h2 style={{ fontSize: "3rem" }}>Omat sivut</h2>
+            <button id="close-user-modal" onClick={closeUserModal}>Close</button>
+            <h2 style={{ fontSize: "3rem" }}>My Page</h2>
             <div className="user-content">
-              <h3>Tervetuloa!</h3>
+              <h3>Welcome!</h3>
               <div className="user-info">
-                <p>Rekisteröity sähköposti: <span id="user-email">{user?.email}</span></p>
+                <p>Registered email: <span id="user-email">{user?.email}</span></p>
               </div>
               {/* Avatar-kuva ja profiilin muokkaus */}
               <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 8 }}>
@@ -613,10 +805,10 @@ function Navigation({ onProjectsClick }) {
                 />
                 <button onClick={() => setIsProfileModalOpen(true)} style={{ marginTop: 8 }}>Edit profile</button>
               </div>
-              <button id="logout-btn" onClick={handleLogout}>Kirjaudu ulos</button>
+              <button id="logout-btn" onClick={handleLogout}>Logout</button>
               <br />
-              <p>Voit myös poistaa tilisi.</p>
-              <button id="delete-account-btn" onClick={openDeleteConfirm}>Poista tili</button>
+              <p>You can also delete your account.</p>
+              <button id="delete-account-btn" onClick={openDeleteConfirm}>Delete account</button>
               {/* Tilin poiston varmistusmodaali */}
               {isDeleteConfirmOpen && (
                 <>
@@ -626,11 +818,11 @@ function Navigation({ onProjectsClick }) {
                     onTouchMove={e => e.preventDefault()}
                   ></div>
                   <div className="modal" tabIndex={-1} style={{ maxWidth: 400 }}>
-                    <h2>Vahvista tilin poisto</h2>
-                    <p>Haluatko varmasti poistaa tilisi? Tätä toimintoa ei voi perua.</p>
+                    <h2>Confirm account deletion</h2>
+                    <p>Are you sure you want to delete your account? This action cannot be undone.</p>
                     <div style={{ display: 'flex', gap: 16, marginTop: 24 }}>
-                      <button onClick={handleDeleteAccount} style={{ background: '#ff4444', color: '#fff' }}>Kyllä, poista tili</button>
-                      <button onClick={closeDeleteConfirm}>Peruuta</button>
+                      <button onClick={handleDeleteAccount} style={{ background: '#ff4444', color: '#fff' }}>Yes, delete account</button>
+                      <button onClick={closeDeleteConfirm}>Cancel</button>
                     </div>
                   </div>
                 </>
@@ -653,7 +845,7 @@ function Navigation({ onProjectsClick }) {
             onTouchMove={e => e.preventDefault()}
           ></div>
           <div className="modal" tabIndex={-1}>
-            <button id="close-admin-modal" onClick={() => setIsAdminModalOpen(false)}>Sulje</button>
+            <button id="close-admin-modal" onClick={() => setIsAdminModalOpen(false)}>Close</button>
             <AdminPage />
           </div>
         </>
@@ -698,6 +890,16 @@ function Navigation({ onProjectsClick }) {
           <li>
             <button id="open-calc-modal" onClick={() => setIsCalcModalOpen(true)}>
               CALCULATOR
+            </button>
+          </li>
+          <li>
+            <button id="open-watch-modal" onClick={() => setIsWatchModalOpen(true)}>
+              WATCH
+            </button>
+          </li>
+          <li>
+            <button id="open-todo-modal" onClick={() => setIsToDoModalOpen(true)}>
+              TO-DO
             </button>
           </li>
           {/* Admin-nappi vain adminille */}
@@ -747,6 +949,14 @@ function Navigation({ onProjectsClick }) {
       {/* Calculator-modaali */}
       {isCalcModalOpen && (
         <CalculatorModal onClose={() => setIsCalcModalOpen(false)} />
+      )}
+      {/* Watch-modaali */}
+      {isWatchModalOpen && (
+        <WatchModal onClose={() => setIsWatchModalOpen(false)} />
+      )}
+      {/* To-Do-modaali */}
+      {isToDoModalOpen && (
+        <ToDoModal onClose={() => setIsToDoModalOpen(false)} />
       )}
     </div>
   );
