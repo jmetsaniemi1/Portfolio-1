@@ -902,6 +902,11 @@ function Navigation({ onProjectsClick }) {
               TO-DO
             </button>
           </li>
+          <li>
+            <button id="open-blog" onClick={() => { window.location.href = '/blog'; }}>
+              BLOG
+            </button>
+          </li>
           {/* Admin-nappi vain adminille */}
           {user && user.isAdmin && (
             <li>
