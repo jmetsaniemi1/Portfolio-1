@@ -1,20 +1,17 @@
 import React from "react";
 import "./blog.css";
 
-function Blog() {
-  return (
-    <div className="blog-wrapper">
-      {/* Blogialue */}
-      <div className="blog-area">
-        <div className="blog-date">7.6.2024</div>
-        <h1 className="blog-title">
-          Sosiaalisen median mahdollisuudet töissä ja vapaa-ajalla YY00DA07-3012 (Oamk Highway 2024-2025)
-          <br /><br />
-          
-          Social Media Opportunities at Work and in Leisure YY00DA07-3012 (Oamk Highway 2024-2025)
-        </h1>
-        <hr style={{ margin: '2.5em 0', border: 'none', borderTop: '1px solid #ddd' }} />
+const articles = [
+  {
+    id: "art1",
+    date: "26.5.2025",
+    title:
+      "Sosiaalisen median mahdollisuudet töissä ja vapaa-ajalla YY00DA07-3012 (Oamk Highway 2024-2025) – Social Media Opportunities at Work and in Leisure YY00DA07-3012 (Oamk Highway 2024-2025)",
+    content: (
+      <>
         <p className="blog-text">
+        <br /><br />
+        <br /><br />
           <span className="blog-ingress">Johdatus sosiaaliseen mediaan – vai johdatus typeryyteen?</span>
           <br /><br />
           Olen erittäin huono sosiaalisen median käyttäjä. Minulla on suuri vihasuhde koko ilmiötä kohtaan. Olen kyllä LinkedInissä, mutta en ole panostanut siihen ollenkaan. Vihaan sitäkin. Koen, että sosiaalinen media yksinomaan tekee ihmisistä typerämpiä.
@@ -51,7 +48,7 @@ function Blog() {
           <br /><br />
           Sosiaalinen media ei ole enää mikään neutraali teknologinen mahdollisuus. Se on manipulaation, kaupallisen vaikuttamisen ja huomion varastamisen alusta. Mutta ehkä minussa puhuu vain vanha sielu, joka arvostaa hiljaisuutta enemmän kuin klikkauksia.
         </p>
-        <hr style={{ margin: '2.5em 0', border: 'none', borderTop: '5px solid #ddd' }} />
+        <hr className="blog-hr" />
         <p className="blog-text">
           <span className="blog-ingress">Introduction to Social Media – Or an Introduction to Stupidity?</span>
           <br /><br />
@@ -85,6 +82,68 @@ function Blog() {
           <br /><br />
           Social media is no longer just a neutral technological tool. It's a platform for manipulation, commercial influence, and attention theft. But perhaps that's just the old soul in me talking – the part that values silence more than clicks.
         </p>
+      </>
+    ),
+  },
+  {
+    id: "art2",
+    date: "26.5.2025",
+    title: "Mikä on digitaalinen identiteettisi? - What is your digital identity?",
+    content: (
+      <>
+        <p className="blog-text">
+        <br /><br />
+          <span className="blog-ingress">Digitaalinen identiteetti – So what?</span>
+          <br /><br />
+          Minulta kysytään, mikä on digitaalinen identiteettini. No, se on juuri sitä mitä hakukoneet, tekoälyt ja uteliaat sormet löytävät, kun nimeni näpytellään Googlen kenttään. Kokeilin tätä tehtävää varten. Löytyi kirjailijakuva. Löytyi kirja. Löytyi linkkejä kirjaston aineistoihin, joissa naamani killuu kuin esihistoriallinen dokumentti. Löytyi kuvia 20 vuoden takaa, kun minulla oli vielä intoa nettiin. Löytyi LinkedIn – jota en käytä. Yritystietoja. Kaikkea mahdollista sälää. Paljon tavaraa, jota en ole pyytänyt julkaistavaksi, mutta jota ei ole myöskään mitenkään vaarallista.
+          <br /><br />
+          Tiedän kyllä, että GDPR antaa minulle oikeuden poistaa, muokata ja hallita tietojani. Minulla on oikeus tulla unohdetuksi. Mutta en ole kiinnostunut. En jaksa säätää. Enkä pelkää, vaikka tiedot säilyvät. En ole koskaan rakentanut mitään tietoisesti "digitaalisen identiteetin" nimissä. En ole hionut some-profiilia enkä optimoinut algoritmeille yhtään mitään. En ole kiinnostunut olemaan "löydettävissä". Jos joku löytää, olkoon. Jos ei, vielä parempi.
+          <br /><br />
+          Mikä sitten on digitaalinen identiteettini? Se on hajanaista jälkeä sieltä täältä, osittain totta, osittain vanhentunutta, eikä kovin imartelevaa tai kiinnostavaa. En ole sisällöntuottaja. En vaikuttaja. En edes kommentoija. Enemmänkin – tarkkailija, joskus huvittunut sivusta katsoja. En koe tarvetta antaa itsestäni "oikeaa" kuvaa verkkoon. Ne, jotka minut tuntevat, tietävät kyllä millainen olen. Ja he eivät tarvitse Instagramia siihen.
+          <br /><br />
+          Tekoäly osaa muuten yllättävän hyvin kertoa missä asun, missä olen ollut töissä ja mitä olen julkaissut. Se on kiinnostavaa lähinnä teknisesti. En kuitenkaan koe tätä uhkana, vaan ennemminkin ajan merkkinä. Näin maailma toimii. Ja minä toimin toisin.
+          <br /><br />
+          Jos joku haluaa luoda itsestään kauniin, hiotun, julkisuuskelpoisen digitaalisen version, olkoon hyvä vaan. Minä pysyn mieluummin tässä analogisessa maailmassa, jossa ihmiset puhuvat kasvotusten, lukevat kirjoja, eivätkä esitä olevansa jotakin muuta kuin mitä ovat. Digitaalinen identiteettini on lähinnä jäänne. Jälki siitä, että olen joskus täälläkin käynyt.
+        </p>
+        <hr className="blog-hr" />
+        <p className="blog-text">
+          <span className="blog-ingress">Digital Identity – So What?</span>
+          <br /><br />
+          People ask me what my digital identity is. Well, it's exactly what search engines, AI bots, and nosy fingers can find when they type my name into Google. I tried it for this assignment. Found a writer photo. Found a book. Found library material links featuring my face like some prehistoric record. Found pictures from 20 years ago, back when I still had energy for the internet. Found my LinkedIn – which I don't use. Company records. All sorts of stuff. A lot of it. A lot of pictures too. None of it matters to me in the slightest.
+          <br /><br />
+          Sure, I know that GDPR gives me the right to delete, edit, and control my data. I have the right to be forgotten. But I couldn't care less. I don't feel like bothering. I'm not scared, even if the data stays online. I've never intentionally built anything in the name of "digital identity." I haven't polished my social media profile, nor optimized anything for any algorithm. I'm not interested in being "found." If someone finds me – fine. If not – even better.
+          <br /><br />
+          So what is my digital identity, then? It's scattered traces here and there, partly true, partly outdated, not particularly flattering or interesting. I'm not a content creator. Not an influencer. Not even a commenter. More of an observer, sometimes an amused bystander. I don't feel the need to project the "real me" online. The people who know me, know who I am. And they don't need Instagram for that.
+          <br /><br />
+          By the way, AI is surprisingly good at figuring out where I live, where I've worked, and what I've published. That's interesting, mainly from a technical standpoint. But I don't see it as a threat – more like a sign of the times. That's how the world works now. And I work differently.
+          <br /><br />
+          If someone wants to create a beautiful, polished, public-friendly digital version of themselves – go ahead. I'd rather stay in this analog world, where people talk face to face, read books, and don't pretend to be something they're not. My digital identity is mostly a remnant. A trace that I once passed through this virtual world.
+        </p>
+      </>
+    ),
+  },
+];
+
+function Blog() {
+  return (
+    <div className="blog-wrapper">
+      <div className="blog-sidebar center">
+        <ul>
+          {articles.map((a) => (
+            <li key={a.id}>
+              <a href={`#${a.id}`}>{a.title.split(" – ")[0]}</a>
+            </li>
+          ))}
+        </ul>
+      </div>
+      <div className="blog-area-multi center">
+        {articles.map((a) => (
+          <div className="blog-article" id={a.id} key={a.id}>
+            <div className="blog-date">{a.date}</div>
+            <h1 className="blog-title">{a.title}</h1>
+            {a.content}
+          </div>
+        ))}
       </div>
     </div>
   );

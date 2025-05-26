@@ -855,21 +855,21 @@ function Navigation({ onProjectsClick }) {
       )}
 
       {/* Off-screen-valikko */}
-      <div className={`off-screen-menu ${isMenuOpen ? "active" : ""}`} ref={offScreenMenuRef}>
-        <ul>
-          <img src={GeneratedImage} alt="Generated Image" /> {/* Korjattu src */}
-          <li>
+<div className={`off-screen-menu ${isMenuOpen ? "active" : ""}`} ref={offScreenMenuRef}>
+  <ul>
+    <img src={GeneratedImage} alt="Generated Image" /> {/* Korjattu src */}
+    <li>
             {user ? (
               <button id="open-user-modal" onClick={openUserModal}>
                 MY PAGE
               </button>
             ) : (
-              <button id="open-login-modal" onClick={openLoginModal}>
-                LOGIN
-              </button>
+      <button id="open-login-modal" onClick={openLoginModal}>
+        LOGIN
+      </button>
             )}
-          </li>
-          <li>
+    </li>
+    <li>
             <button
               id="front-page-btn"
               onClick={() => {
@@ -883,25 +883,25 @@ function Navigation({ onProjectsClick }) {
             >
               FRONT PAGE
             </button>
-          </li>
-          <li>
-            <button
-              type="button"
-              onClick={() => {
-                if (onProjectsClick) onProjectsClick();
-                setIsMenuOpen(false); // sulje valikko
-              }}>
-              PROJECTS
-            </button>
-          </li>
-          <li>
-            <button id="open-modal" onClick={openCvModal}>
-              CV
-            </button>
-          </li>
-          <li>
-            <a href="#CONTACT">CONTACT</a>
-          </li>
+    </li>
+    <li>
+      <button
+        type="button"
+        onClick={() => {
+          if (onProjectsClick) onProjectsClick();
+          setIsMenuOpen(false); // sulje valikko
+        }}>
+        PROJECTS
+      </button>
+    </li>
+    <li>
+      <button id="open-modal" onClick={openCvModal}>
+        CV
+      </button>
+    </li>
+    <li>
+      <a href="#CONTACT">CONTACT</a>
+    </li>
           <li>
             <button id="open-calc-modal" onClick={() => setIsCalcModalOpen(true)}>
               CALCULATOR
@@ -930,8 +930,8 @@ function Navigation({ onProjectsClick }) {
               </button>
             </li>
           )}
-        </ul>
-      </div>
+  </ul>
+</div>
 
       {/* Navigaatio */}
       <nav>

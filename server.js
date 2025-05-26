@@ -24,7 +24,7 @@ const userSchema = new mongoose.Schema({
   passwordHash: { type: String, required: true },
   isAdmin: { type: Boolean, default: false },
   avatarUrl: { type: String, default: "" }
-});
+  });
 const User = mongoose.model('User', userSchema);
 
 // JWT tokenin tarkistusmiddleware
@@ -76,7 +76,7 @@ app.post('/api/profile/avatar', verifyToken, upload.single('avatar'), async (req
     res.json({ message: 'Avatar uploaded', avatarUrl });
   } catch (error) {
     res.status(500).json({ message: 'Server error while uploading avatar' });
-  }
+    }
 });
 
 // Palvele uploads-kansio staattisesti
@@ -85,8 +85,8 @@ app.use('/uploads', express.static(uploadDir));
 // Rekisteröinti
 app.post('/api/register', async (req, res) => {
   console.log('POST /api/register', req.body);
-  const { email, password } = req.body;
-  if (!email || !password) {
+      const { email, password } = req.body;
+      if (!email || !password) {
     console.log('⛔ Rekisteröinti epäonnistui: puuttuva kenttä');
     return res.status(400).json({ error: 'Täytä kaikki kentät.' });
   }
@@ -120,7 +120,7 @@ app.delete('/api/delete-account', verifyToken, async (req, res) => {
   } catch (error) {
     console.error('❌ Virhe tilin poistossa:', error);
     res.status(500).json({ message: "Server error while deleting account" });
-  }
+      }
 });
 
 // Kaikkien käyttäjien listaus (vain adminille)
@@ -165,9 +165,9 @@ app.put('/api/users/:id/admin', verifyToken, requireAdmin, async (req, res) => {
 // Kirjautuminen
 app.post('/api/login', async (req, res) => {
   console.log('POST /api/login', req.body);
-  const { email, password } = req.body;
-  const user = await User.findOne({ email });
-  if (!user) {
+    const { email, password } = req.body;
+        const user = await User.findOne({ email });
+        if (!user) {
     console.log('⛔ Kirjautuminen epäonnistui: käyttäjää ei löydy', email);
     return res.status(401).json({ error: 'Väärä sähköposti tai salasana.' });
   }
@@ -176,7 +176,7 @@ app.post('/api/login', async (req, res) => {
   if (!valid) {
     console.log('⛔ Kirjautuminen epäonnistui: väärä salasana', email);
     return res.status(401).json({ error: 'Väärä sähköposti tai salasana.' });
-  }
+        }
 
   const token = jwt.sign({ email: user.email, id: user._id, isAdmin: user.isAdmin }, process.env.JWT_SECRET, { expiresIn: '1h' });
   console.log('✅ Kirjautuminen onnistui:', email);

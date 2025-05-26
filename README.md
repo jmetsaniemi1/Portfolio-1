@@ -27,7 +27,7 @@ Moderni, interaktiivinen portfolio-sivusto, joka esittelee matkani logistiikasta
 ## Projektirakenne
 
 Portfolio-1/
-│
+│      
 ├── assets/
 │   └── Images/
 │       └── Videos/
@@ -40,7 +40,7 @@ Portfolio-1/
 ├── Columns.jsx
 ├── Carousels.jsx
 ├── server.js            # Express backend
-├── package.json
+├── package.json       
 ├── .env                 # Ympäristömuuttujat (ei gitissä)
 ├── README.md
 └── ...
@@ -109,7 +109,7 @@ npm run deploy
 
 ## Yhteystiedot
 
-Johannes Metsäniemi  
+Johannes Metsäniemi
 Email: jmetsaniemi@me.com  
 LinkedIn: [https://www.linkedin.com/in/johannes-metsäniemi-266079aa/](https://www.linkedin.com/in/johannes-mets%C3%A4niemi-266079aa/)
 
