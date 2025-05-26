@@ -1,5 +1,7 @@
 import React from "react";
 import "./blog.css";
+import cat1 from "./assets/Images/cat1.jpg";
+import cat2 from "./assets/Images/cat2.jpg";
 
 const articles = [
   {
@@ -118,6 +120,67 @@ const articles = [
           By the way, AI is surprisingly good at figuring out where I live, where I've worked, and what I've published. That's interesting, mainly from a technical standpoint. But I don't see it as a threat – more like a sign of the times. That's how the world works now. And I work differently.
           <br /><br />
           If someone wants to create a beautiful, polished, public-friendly digital version of themselves – go ahead. I'd rather stay in this analog world, where people talk face to face, read books, and don't pretend to be something they're not. My digital identity is mostly a remnant. A trace that I once passed through this virtual world.
+        </p>
+      </>
+    ),
+  },
+  {
+    id: "art3",
+    date: "26.5.2025",
+    title: "CC ja tekijänoikeus - AI-kuvien luominen – uuden aikakauden apu kuvien käytössä",
+    content: (
+      <>
+        <p className="blog-text">
+          Kuvien käyttäminen viestinnässä ja markkinoinnissa on nykyään keskeistä, mutta sopivien ja käyttöön sallittujen kuvien löytäminen on usein haasteellista tekijänoikeuskysymysten vuoksi. Tässä kohtaa tekoälypohjaiset kuvanluontityökalut, kuten DALL·E, Midjourney tai Stable Diffusion, ovat nousseet tärkeiksi apuvälineiksi.
+          <br /><br />
+          AI-kuvien suurin etu on niiden ainutlaatuisuus ja käyttöoikeuksien joustavuus. Koska kuvat luodaan algoritmin avulla eikä niillä ole perinteisiä tekijänoikeuksia, niitä voi yleensä käyttää vapaasti omiin projekteihin ilman lupapyyntöjä. Tämä helpottaa erityisesti pienyrittäjiä, sisällöntuottajia ja markkinoijia, jotka tarvitsevat nopeita ja kustannustehokkaita ratkaisuja visuaalisen sisällön luomiseen.
+          <br /><br />
+          <span className="blog-ingress">Tekoäly osaa luoda melko aitoja kuvia kuvailun perusteella</span>
+          <div className="blog-image-row">
+            <img src={cat1} alt="AI Cat 1" className="blog-img" />
+            <img src={cat2} alt="AI Cat 2" className="blog-img" />
+          </div>
+          <br /><br />
+          On kuitenkin tärkeää huomata, että AI-kuvien tekijänoikeustilanne on vielä kehittymässä, ja oikeudelliset näkökohdat voivat muuttua tulevaisuudessa. Lisäksi kuvia käytettäessä on hyvä olla tarkkana esimerkiksi mallisuoja- tai tavaramerkkirajoitusten suhteen, jotka voivat koskea AI:n oppimateriaaleina käyttämiä kuvia.
+          <br /><br />
+          Kuvien lainaaminen ja uudelleenkäyttö on AI-kuvien kohdalla usein yksinkertaisempaa kuin perinteisten valokuvien kanssa, mikä nopeuttaa sisältöjen tuotantoa ja säästää kustannuksissa. Tämä uusi teknologia avaa mahdollisuuksia luovuudelle ja yksilöllisyydelle, ja samalla se haastaa perinteiset käsitykset tekijänoikeuksista.
+        </p>
+      </>
+    ),
+  },
+  {
+    id: "art4",
+    date: "26.5.2025",
+    title: "Sosiaalisen median hyödyntämissuunnitelma",
+    content: (
+      <>
+        <p className="blog-text">
+          <span className="blog-ingress">Osallistujat:</span><br />
+          Johannes Metsäniemi
+          <br /><br />
+          <span className="blog-ingress">Tausta</span><br />
+          Suunnitelman nimi: Koodausfirman näkyvyyden ja asiakasverkoston kasvatus sosiaalisen median avulla
+          <br /><br />
+          <span className="blog-ingress">Suunnitelman tavoite</span><br />
+          Tavoitteena on lisätä pienen koodausfirman tunnettuutta ja asiakaskontakteja hyödyntämällä sosiaalisen median kanavia sekä rakentamalla aktiivinen verkkoyhteisö. Kohderyhmänä ovat potentiaaliset asiakkaat, kuten startup-yritykset, paikalliset pienyritykset sekä teknologiasta kiinnostuneet ammattilaiset.
+          <br /><br />
+          <span className="blog-ingress">Kohderyhmä</span><br />
+          Kyseessä on pieni, kasvava koodausfirma, joka tarjoaa räätälöityjä ohjelmistoratkaisuja. Yrityksen haasteena on saada jalansijaa kilpailulla alalla ja tavoittaa uusia asiakkaita sekä luoda luottamusta brändiin. Toteutus on tärkeä, koska sosiaalinen media tarjoaa kustannustehokkaan ja suoraviivaisen tavan markkinoida palveluita sekä verkostoitua. Suunnitelma voi ratkaista näkyvyyden puutetta, asiakassuhteiden luomisen haasteita ja asiakkaiden epävarmuutta pienestä palveluntarjoajasta.
+          <br /><br />
+          <span className="blog-ingress">Sosiaalisen median työkalut ja palvelut ja niiden käyttö</span><br />
+          <b>Valitut työkalut:</b><br />
+          LinkedIn: Ammatillisen verkoston rakentamiseen, asiantuntijasisällön jakamiseen ja yrityskuvauksen vahvistamiseen.<br />
+          Instagram: Visuaalisen sisällön, kuten koodausprojektien esittelyn, työpaikkakulttuurin ja asiakastarinoiden jakamiseen.<br />
+          Twitter: Alan uutisten, nopeiden päivitysten ja vuorovaikutuksen lisäämiseksi teknologia-alan ammattilaisten kanssa.
+          <br /><br />
+          <b>Valinnan perustelut:</b><br />
+          LinkedIn tukee B2B-markkinointia ja yrityskontakteja, Instagram tavoittaa visuaalisesti suuntautuneita nuorempia käyttäjiä ja Twitter on tehokas nopeaan vuorovaikutukseen ja alan trendien seuraamiseen. Nämä kanavat yhdessä tukevat tavoitetta lisätä näkyvyyttä ja asiakassuhteita monipuolisesti.
+          <br /><br />
+          <span className="blog-ingress">Yksityisyys- ja turvallisuuskysymykset</span><br />
+          Tietosuoja on varmistettava käyttämällä vahvoja salasanoja ja kaksivaiheista tunnistautumista. Yrityksen henkilötietoja ei jaeta julkisesti ilman lupaa, ja asiakkaiden tiedot käsitellään luottamuksellisesti. Sisällön julkaisussa noudatetaan tekijänoikeuksia ja mahdollisissa yhteistyöpostauksissa merkitään tekijät ja lähteet asianmukaisesti.
+          <br /><br />
+          <span className="blog-ingress">Päivitys ja ylläpito</span><br />
+          Sosiaalisen median kanavia päivitetään säännöllisesti, esimerkiksi 3–5 kertaa viikossa, sisältäen sekä omaa että kuratoitua sisältöä. Vastuutahona toimii Johannes Metsäniemi, joka seuraa analytiikkaa ja reagoi palautteisiin. Käyttöönotto on avoin ja ilmainen, ja tavoitteena on kasvattaa orgaanista näkyvyyttä ja sitoutuneisuutta. Tulevaisuudessa suunnitelmaan voidaan liittää maksullisia mainoskampanjoita ja yhteistyötä muiden alan toimijoiden kanssa, jotta saavutetaan laajempi yleisö ja varmistetaan jatkuvuus.
         </p>
       </>
     ),
