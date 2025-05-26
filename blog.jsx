@@ -8,7 +8,7 @@ const articles = [
     id: "art1",
     date: "26.5.2025",
     title:
-      "Sosiaalisen median mahdollisuudet töissä ja vapaa-ajalla YY00DA07-3012 (Oamk Highway 2024-2025) – Social Media Opportunities at Work and in Leisure YY00DA07-3012 (Oamk Highway 2024-2025)",
+      "1. Sosiaalisen median mahdollisuudet töissä ja vapaa-ajalla YY00DA07-3012 (Oamk Highway 2024-2025) – Social Media Opportunities at Work and in Leisure YY00DA07-3012 (Oamk Highway 2024-2025)",
     content: (
       <>
         <p className="blog-text">
@@ -90,7 +90,7 @@ const articles = [
   {
     id: "art2",
     date: "26.5.2025",
-    title: "Mikä on digitaalinen identiteettisi? - What is your digital identity?",
+    title: "2. Mikä on digitaalinen identiteettisi? - What is your digital identity?",
     content: (
       <>
         <p className="blog-text">
@@ -127,7 +127,7 @@ const articles = [
   {
     id: "art3",
     date: "26.5.2025",
-    title: "CC ja tekijänoikeus - AI-kuvien luominen – uuden aikakauden apu kuvien käytössä",
+    title: "3. CC ja tekijänoikeus - AI-kuvien luominen – uuden aikakauden apu kuvien käytössä",
     content: (
       <>
         <p className="blog-text">
@@ -151,7 +151,7 @@ const articles = [
   {
     id: "art4",
     date: "26.5.2025",
-    title: "Sosiaalisen median hyödyntämissuunnitelma",
+    title: "4. Sosiaalisen median hyödyntämissuunnitelma",
     content: (
       <>
         <p className="blog-text">
@@ -185,6 +185,27 @@ const articles = [
       </>
     ),
   },
+  {
+    id: "art5",
+    date: "26.5.2025",
+    title: "5. Itsearviointi – mitä opin sosiaalisen median kurssilla?",
+    content: (
+      <>
+        <p className="blog-text">
+        <br /><br />
+          Kun kurssi alkoi, en ollut ajatellut koskaan tekeväni omaa blogia. Se on aina kuulostanut jotenkin... tylsältä. Mutta nyt blogi on olemassa – sellaisena kuin se on. Ehkä vielä joskus työstän sen ulkoasua ja teen siitä responsiivisemman, kun aikaa löytyy. Ainakin nyt tiedän, miten se tehdään.
+          <br /><br />
+          Kurssin aikana opin paljon käytännön asioita liittyen tekijänoikeuksiin, CC-lisensseihin ja sosiaalisen median suunnitteluun. Oli yllättävää huomata, kuinka paljon somen taustalla vaikuttavia asioita voi (ja pitää) ottaa huomioon, jos haluaa toimia vastuullisesti – varsinkin, jos edustaa yritystä tai yhteisöä.
+          <br /><br />
+          Asenteeni sosiaalista mediaa kohtaan ei ole kuitenkaan muuttunut. En ole koskaan ollut suuri fani, ja joka vuosi viihdyn siellä vähän vähemmän. En koe tarvetta rakentaa digitaalista persoonaa tai olla jatkuvasti näkyvillä. Tämä ei kuitenkaan estä minua hyödyntämästä sosiaalista mediaa silloin, kun sille on selkeä ja konkreettinen tarkoitus, kuten nyt suunnitelmassa pienelle koodausfirmalle.
+          <br /><br />
+          Kurssin tavoitteeni olivat käytännönläheisiä: oppia työkaluja, joita voin hyödyntää tulevissa projekteissa. Tässä onnistuin hyvin. Sain myös tehtyä selkeän sosiaalisen median suunnitelman, jossa yhdistyivät oppimani asiat ja aiempi kokemukseni viestinnästä.
+          <br /><br />
+          Ajankäyttöni? No, se on mestarillista. Teen asioita silloin kun se tuntuu hyvältä ja tarpeelliselta. Olen onnellisessa asemassa, jossa elämä ei ole minuuttiaikataulutettua. Käytän aikani mieluiten hyvien ihmisten seurassa – ja tämä kurssi, yllättäen, mahtui siihen mukaan.
+        </p>
+      </>
+    ),
+  }
 ];
 
 function Blog() {

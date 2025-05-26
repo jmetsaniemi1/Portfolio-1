@@ -10,7 +10,8 @@
     "preview": "vite preview",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d dist",
-    "dev": "vite"
+    "dev": "vite",
+    "postbuild": "cp dist/index.html dist/404.html"
   },
   "keywords": [],
   "author": "",
