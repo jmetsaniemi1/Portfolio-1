@@ -142,6 +142,22 @@ nav {
   line-height: 1.7;
 }
 
+.blog-ingress {
+  display: block;
+  font-size: 1.35rem;
+  font-weight: bold;
+  color: #181818;
+  margin-bottom: 0.7em;
+}
+
+.blog-date {
+  font-size: 1.05rem;
+  color: #888;
+  margin-bottom: 0.7em;
+  text-align: center;
+  letter-spacing: 0.04em;
+}
+
 @media (max-width: 900px) {
   .blog-area {
     max-width: 98vw;
@@ -151,3 +167,12 @@ nav {
     font-size: 1.3rem;
   }
 }
+
+.blog-area hr {
+    display: block !important;
+    border: none !important;
+    border-top: 5px solid #222 !important;
+    margin: 2.5em 0 !important;
+    width: 100%;
+    opacity: 0.18;
+  }
