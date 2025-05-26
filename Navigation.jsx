@@ -4,6 +4,7 @@ import lightModeVideo from "./assets/Images/Videos/lightmode.mp4";
 import darkModeVideo from "./assets/Images/Videos/darkmode.mp4";
 import GeneratedImage from "./assets/Images/Generated Image.png"; 
 import AdminPage from "./adminPage.jsx";
+import { useNavigate, useLocation } from 'react-router-dom';
 
 function ProfileModal({ user, onClose, onAvatarUpdated }) {
   const [avatar, setAvatar] = useState(null);
@@ -338,6 +339,8 @@ function Navigation({ onProjectsClick }) {
   const loginModalRef = useRef(null);
   const cvModalRef = useRef(null);
   const offScreenMenuRef = useRef(null);
+  const navigate = useNavigate();
+  const location = useLocation();
 
   console.log("Navigation user:", user); // Debug: tulosta user-tila
 
@@ -867,7 +870,19 @@ function Navigation({ onProjectsClick }) {
             )}
           </li>
           <li>
-            <a href="#">FRONT PAGE</a>
+            <button
+              id="front-page-btn"
+              onClick={() => {
+                if (location.pathname !== '/') {
+                  navigate('/');
+                } else {
+                  window.scrollTo({ top: 0, behavior: 'smooth' });
+                }
+                setIsMenuOpen(false);
+              }}
+            >
+              FRONT PAGE
+            </button>
           </li>
           <li>
             <button
@@ -903,7 +918,7 @@ function Navigation({ onProjectsClick }) {
             </button>
           </li>
           <li>
-            <button id="open-blog" onClick={() => { window.location.href = '/blog'; }}>
+            <button id="open-blog" onClick={() => { navigate('/blog'); }}>
               BLOG
             </button>
           </li>
