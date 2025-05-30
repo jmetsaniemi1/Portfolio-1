@@ -121,7 +121,7 @@ nav {
   top: 120px;
   left: 0;
   width: 260px;
-  padding: 32px 0px 32px 18px;
+  padding: 32px 18px 32px 18px;
   z-index: 10;
   min-height: 300px;
   display: flex;

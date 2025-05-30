@@ -211,23 +211,25 @@ const articles = [
 function Blog() {
   return (
     <div className="blog-wrapper">
-      <div className="blog-sidebar center">
-        <ul>
+      <div className="blog-layout">
+        <div className="blog-sidebar center">
+          <ul>
+            {articles.map((a) => (
+              <li key={a.id}>
+                <a href={`#${a.id}`}>{a.title.split(" – ")[0]}</a>
+              </li>
+            ))}
+          </ul>
+        </div>
+        <div className="blog-area-multi center">
           {articles.map((a) => (
-            <li key={a.id}>
-              <a href={`#${a.id}`}>{a.title.split(" – ")[0]}</a>
-            </li>
+            <div className="blog-article" id={a.id} key={a.id}>
+              <div className="blog-date">{a.date}</div>
+              <h1 className="blog-title">{a.title}</h1>
+              {a.content}
+            </div>
           ))}
-        </ul>
-      </div>
-      <div className="blog-area-multi center">
-        {articles.map((a) => (
-          <div className="blog-article" id={a.id} key={a.id}>
-            <div className="blog-date">{a.date}</div>
-            <h1 className="blog-title">{a.title}</h1>
-            {a.content}
-          </div>
-        ))}
+        </div>
       </div>
     </div>
   );
