@@ -1,5 +1,7 @@
 import React from "react";
 import "./SchoolBlog.css";
+import cat1 from "./assets/Images/cat1.jpg";
+import cat2 from "./assets/Images/cat2.jpg";
 
 const articles = [
   {
@@ -62,7 +64,7 @@ const articles = [
           <br />
           • Verkkosivustoja HTML:llä, CSS:llä ja JavaScriptillä
           <br />
-          • Visuaalisia esityksiä ja käyttöliittymäluonnoksia esim After Efectsillä tai Photoshopilla
+          • Visuaalisia esityksiä ja käyttöliittymäluonnoksia esim After Efectsillä tai Photoshopilla. Sivuston taustaanimaatio esimerkiksi on tehty After Effectsillä.
           <br />
           • Dokumentaatiota projekteista, Word
           <br /><br />
@@ -84,8 +86,11 @@ const articles = [
           <br /><br />
           Tekijänoikeudet?
           <br />
-          • Käytän vain tekoälyn tai itseni luomia kuvia ja animaatioita, joissa ei ole tekijänoikeuksia tai ne ovat itselläni
-          <br />
+          • Käytän vain tekoälyn tai itseni luomia kuvia ja animaatioita, joissa ei ole tekijänoikeuksia tai ne ovat itselläni. Tässä on esimerkiksi kaksi tekoälyn luomaa kuvaa kissasta.
+          <div className="blog-image-row">
+            <img src={cat1} alt="Cat 1" className="blog-img" style={{maxWidth:320, maxHeight:320}} />
+            <img src={cat2} alt="Cat 2" className="blog-img" style={{maxWidth:320, maxHeight:320}} />
+          </div>
           • Mainitsen lähteet selkeästi sivuilla, mikäli sellaiseen on tarvetta
           <br />
           • En käytä muiden koodia ilman viittausta tai lisenssin tarkistamista, mikäli sellainen päivä joskus tulisi.
