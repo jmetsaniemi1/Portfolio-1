@@ -922,6 +922,11 @@ function Navigation({ onProjectsClick }) {
               BLOG
             </button>
           </li>
+          <li>
+            <button id="open-school-blog" onClick={() => { navigate('/school-blog'); }}>
+              SCHOOL BLOG
+            </button>
+          </li>
           {/* Admin-nappi vain adminille */}
           {user && user.isAdmin && (
             <li>

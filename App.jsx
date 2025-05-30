@@ -14,6 +14,7 @@ import Footer from "./Footer";
 import StockTicker from "./StockTicker";
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Blog from './blog.jsx';
+import SchoolBlog from './SchoolBlog.jsx';
 
 function App() {
   const dialogRef = useRef(null);
@@ -286,6 +287,7 @@ function App() {
           </div>
         } />
         <Route path="/blog" element={<><Navigation /><Blog /></>} />
+        <Route path="/school-blog" element={<><Navigation /><SchoolBlog /></>} />
       </Routes>
     </BrowserRouter>
   );
