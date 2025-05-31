@@ -53,11 +53,11 @@
   cursor: pointer;
   width: 100%;
   text-align: left;
-  font-family: inherit;
   font-weight: 500;
   padding: 0;
   margin: 0;
   outline: none;
+  top: 70vh;
 }
 .off-screen-menu button:hover {
   color: #ffad06;
@@ -294,6 +294,7 @@ nav {
     backdrop-filter: blur(10px);
     border-radius: 0 0 20px 20px;
     box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    top: 40vh;
   }
   
   .blog-sidebar h2 {
