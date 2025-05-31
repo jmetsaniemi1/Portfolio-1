@@ -291,10 +291,7 @@ nav {
     margin: 0;
     padding: 1.5em;
     transform: none;
-    backdrop-filter: blur(10px);
     border-radius: 0 0 20px 20px;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
-    top: 40vh;
   }
   
   .blog-sidebar h2 {
@@ -324,7 +321,7 @@ nav {
   .blog-article {
     margin: 1em 0;
     padding: 2em 1.5em;
-    top: 0;
+    top: 40vh;
   }
   
   .blog-title {
