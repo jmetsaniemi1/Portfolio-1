@@ -6,98 +6,70 @@ import cat2 from "./assets/Images/cat2.jpg";
 const articles = [
   {
     id: "school1",
-    date: "30.5.2026",
+    date: "2.6.2025",
     title: "Digitaalinen osaamiseni - Johannes, Taitotalo",
     content: (
       <>
         <p className="blog-text">
+          <h1 className="text-3xl font-bold mb-4">Tekoälyn merkitys ohjelmistokehityksessä</h1>
           <br /><br />
-          <span className="blog-ingress">1. Esittely</span>
+          <span className="text-sm text-gray-400 mb-6">Johannes Metsäniemi, Taitotalo | 2.6.2025</span>
           <br /><br />
-          Kuka olen? Olen Johannes, 34-vuotias Taitotalossa opiskeleva ohjelmistokehityksen opiskelija. Aloitin koodaamisen vasta opintojeni myötä, mutta olen motivoitunut oppimaan ja kehittämään itseäni sen saralla.
           <br /><br />
-          <span className="blog-ingress">Miksi valitsin tämän kurssin?</span>
+          Olen Johannes, 34-vuotias ohjelmistokehityksen opiskelija Taitotalosta. Aloitin koodaamisen vasta opintojeni alettua, mutta olen jo saanut runsaasti kokemuksia muun muassa MongoDB:n ja GitHubin käytöstä sekä React- ja JavaScript-koodauksesta. Elokuussa 2025 aloitan ohjelmistokehittäjän harjoittelun Keskolla, jossa on käynnistymässä laaja projekti. Tätä taustaa vasten on ollut kiinnostavaa tarkastella, millainen rooli tekoälyllä on nykyisessä ja tulevassa ohjelmistokehityksessä, ja miten sitä tullaan Keskolla, oikeassa työelämässä käyttämään.
           <br /><br />
-          Sen lisäksi, että se on pakollinen, haluan tarkistaa digitaalista osaamistani, onko se esim ajantasainen.
+          Tässä blogipäivtyksessä siten tarkastelen tekoälyn vaikutusta ohjelmistokehityksen arkeen – lähinnä opiskelijana mutta myös tulevana työelämän osaajana.
+
           <br /><br />
-          Työtehtävä / tuleva ammatti: Tavoitteeni on työskennellä tulevaisuudessa web-kehityksen parissa – erityisesti visuaalisesti laadukkaiden ja toimivien verkkosivujen parissa. Tällä hetkellä työskentelen opiskeluprojektissa, jossa rakennamme verkkosivustoa aurinkokunnasta. Aloitan työharjoittelun kesän lopussa. Jatkan opintoja Oulun AMK:ssa.
+          <span className="blog-ingress">1. Tekoäly ohjelmistokehityksessä</span>
           <br /><br />
-          LinkedIn-profiilini: <a href="https://www.linkedin.com/in/johannes-metsäniemi-266079aa/" target="_blank" rel="noopener noreferrer">https://www.linkedin.com/in/johannes-metsäniemi-266079aa/</a>
+          Tekoäly ei ole enää leikkikalu, vaan se on aito työkalu. Se on tullut arkeen ennen kaikkea ohjelmistokehittäjille, jotka ironisesti ovat olleet luomassa "tekoälyä". Nyt modernit kehittäjät hyödyntävät tekoälypohjaisia työkaluja koodin kirjoittamiseen, dokumentointiin, testien luontiin, refaktorointiin sekä jopa luovaan ideointiin.
           <br /><br />
-          <span className="blog-ingress">2. Digitaalinen ympäristö</span>
+          Yksi erityisen nopeasti yleistynyt työkalu on Cursor, AI-avusteinen koodieditori, joka perustuu Visual Studio Codeen, mutta on syvästi integroitu GPT-avusteiseen koodintäydennykseen. Sillä ei ole vielä vastaavaa kilpailijaa. Keskusteluissani kokeneiden full stack -kehittäjien kanssa olen kuullutkin, että moni  vanhakin ammattilainen käyttää nykyään pelkästään Cursoria perinteisten editorien sijaan – niin tehokasta sen AI-avustus voi olla.
           <br /><br />
-          Mitä käytän työssäni tai opinnoissani?
-          <br />
-          • Visual Studio Code -editoria (HTML, CSS, JavaScript, React)
-          <br />
-          • GitHub versionhallintaan ja ryhmätyöhön
-          <br />
-          • MongoDB Atlas henkilökohtaisiin tietokantoihin
-          <br />
-          • Vercel & Render frontendin julkaisuun
-          <br />
-          • Framer no-code/no-low-code-verkkosivuihin
+          Tekoälyllä voi:
+          <ul>
+            <li>Auttaa luomaan raakaa koodia automaattisesti.</li>
+            <li>Generoida dokumentaatiota koodista reaaliaikaisesti.</li>
+            <li>Ehdottaa tehokkaampaa tai puhtaampaa toteutustapaa koodille.</li>
+            <li>Auttaa virheenkorjauksessa ja debuggaamisessa.</li>
+          </ul>
+
           <br /><br />
-          Käytännön esimerkki: Ryhmäprojektissamme käytämme GitHubia jakamaan tehtävät ja hallitsemaan koodimuutoksia. Esimerkiksi tein tietokantatiedoston MongoDB-yhteyttä varten ja päivitin PUT-metodin käyttäjätietojen muokkausta varten.
+          <span className="blog-ingress">2. Digiroolit tekoälyajassa</span>
           <br /><br />
-          <span className="blog-ingress">3. Ammatilliset verkostot ja sovellukset</span>
+          Ohjelmistokehitystiimeissä on muutamia rooleja, joihin tekoäly vaikuttaa eri tavoin. Niistä keskeiset ovat:
           <br /><br />
-          Käyttämäni ammatilliset verkostot ja sovellukset:
-          <br />
-          • LinkedIn: on olemassa muodon vuoksi
-          <br />
-          • Teams: opiskeluun ja työhön
-          <br />
-          • GitHub / Git: ryhmätyöhön ja omien projektien hallintaan
+          <b>Frontend-kehittäjä</b> voi käyttää paljon tekoälyä luomaan peruskäyttöliittymien rakennetta ja komponentteja. Aiemmin tämä työ on täytynyt tehdä käsin tai hyödyntää valmiita kirjastoja ja palikoita, mutta nyt tekoäly voi ehdottaa jopa kokonaisia näkymärakenteita nopeasti.
           <br /><br />
-          Mitä voisin hyödyntää enemmän?
-          <br />
-          • Stack Overflow'n osallistuva käyttö (kysymysten ja vastausten kautta)
-          <br />
-          • LinkedInin ryhmät ja keskustelut
-          <br />
-          • Puhua ihmisille
+          <b>Backend-kehittäjä</b> hyötyy tekoälystä esimerkiksi API-rakenteiden, tietomallien ja testien automatisoinnissa. Tämä nopeuttaa kehitystä ja auttaa keskittymään ratkaisujen logiikkaan.
           <br /><br />
-          <span className="blog-ingress">4. Digitaalisen aineiston tuottaminen ja jakaminen</span>
+          <b>Projektipäällikkö</b> tai <b>tuoteomistaja</b> voi hyödyntää tekoälyä suurten tietomäärien analysoinnissa, esimerkiksi käyttäjädatan, palautejärjestelmien tai erilaisten mittarien pohjalta tehtävien päätösten tueksi.
           <br /><br />
-          Tuotan mm.:
-          <br />
-          • Verkkosivustoja HTML:llä, CSS:llä ja JavaScriptillä
-          <br />
-          • Visuaalisia esityksiä ja käyttöliittymäluonnoksia esim After Efectsillä tai Photoshopilla. Sivuston taustaanimaatio esimerkiksi on tehty After Effectsillä.
-          <br />
-          • Dokumentaatiota projekteista, Word
+          Tekoäly ei kenties poista rooleja, vaan pikemminkin vahvistaa niitä – tehokkuuden ja tuottavuuden kautta. Mutta... samalla se tuo  suuren murroksen koko alalle: Valtaosa alan työntekijöistä tulee kokemaan haasteita, kun osa tehtävistä automatisoituu tai muuttuu. Sopeutuminen, jatkuva oppiminen ja oman osaamisen kehittäminen ovat tulevaisuudessa entistäkin tärkeämpiä. 
           <br /><br />
-          Miten jaan aineistoa?
-          <br />
-          • GitHubin kautta julkisesti tai yksityisesti
-          <br />
-          • Vercelin tai Renderin avulla julkaistuina verkkosivuina
-          <br />
-          • Vokaalisesti
+          Itse lähdin opiskelemaan koodaamista kun AI oli vielä alkuvaiheissa - eikä siitä ole kauaa. Sinä aikana koko työmarkkina ja työskentelytapa on muuttunut. Seuraaville opiskelijoille luultavasti tekoälyä painotetaan aivan eri tavalla kuin minulle. Onko se minulle etu vai haaste, se jää nähtäväksi.
           <br /><br />
-          <span className="blog-ingress">Kenelle ja kuinka laajasti?</span>
-          <br />
-          • Ryhmätyön tiimille
-          <br />
-          • Opettajalle
-          <br />
-          • Mahdollisesti portfolion kautta myös tuleville työnantajille
+          <span className="blog-ingress">3. Vastuu ja eettisyys tekoälyn käytössä</span>
           <br /><br />
-          Tekijänoikeudet?
+          Tekoäly voi olla tehokas apuri, mutta vastuu työn tuloksista säilyy aina käyttäjällä itsellään. Tämä tarkoittaa muun muassa:
+          <ul>
+            <li><b>AI:n</b> antamien ehdotusten tarkistamista.</li>
+            <li><b>Tietoturvan</b> ja yksityisyyden varmistamista. - Mieti, mitä olet antamassa tekoälylle. Mieti myös, mitä ole tekemässä sillä.</li>
+            <li><b>Sekä sen varmistamista, ettei tekoäly luo virheellistä tai harhaanjohtavaa sisältöä.</b></li>
+          </ul>
           <br />
-          • Käytän vain tekoälyn tai itseni luomia kuvia ja animaatioita, joissa ei ole tekijänoikeuksia tai ne ovat itselläni. Tässä on esimerkiksi kaksi tekoälyn luomaa kuvaa kissasta.
-          <div className="blog-image-row">
-            <img src={cat1} alt="Cat 1" className="blog-img" style={{maxWidth:320, maxHeight:320}} />
-            <img src={cat2} alt="Cat 2" className="blog-img" style={{maxWidth:320, maxHeight:320}} />
-          </div>
-          • Mainitsen lähteet selkeästi sivuilla, mikäli sellaiseen on tarvetta
-          <br />
-          • En käytä muiden koodia ilman viittausta tai lisenssin tarkistamista, mikäli sellainen päivä joskus tulisi.
+          Tämä on tärkeää, koska AI-mallit voivat helposti antaa vastauksia, jotka vaikuttavat uskottavilta, mutta eivät pidä paikkaansa. ChatGPT:n kaltaiset mallit ovat suunniteltu niin, että jos pyydät sitä etsimään vaikkapa virheen jostakin koodinpätkästä, niin se kertoo / luo sinulle virheen, vaikkei sitä oikeasti olisi. Toisin sanoen AI tekee sen, mitä siltä pyydät, vaikka siinä ei olisi mitään järkeä.
           <br /><br />
-          <span className="blog-ingress">Yhteenveto</span>
+          Toinen huomioitava ilmiö on, että tekoälyä käytetään haitallisiin ja rikollisiin tarkoitusperiin. Tekoälyllä voidaan luoda haitallista sisältöä, kuten haitallisia ohjelmia, haitallisia verkkosivustoja, haitallisia sähköposteja ja haitallisia sähköpostiviestejä. Sillä voidaan luoda kuvia ihmisistä, jotka eivät ole olemassa, ja myös luoda haitallisia kuvia. Sillä voidaan luoda aidon tuntuisia, epäasiallisia kuvia tunnetuista ihmisistä tai omista vihamiehistä, koulukavereista, kollegoista, joita sitten laitetaan internettiin.
           <br /><br />
-          Tämän blogin tarkoituksena on esitellä digitaalista osaamistani ja jakaa kokemuksia siitä, miten hyödynnän digitaalisia ympäristöjä ja sovelluksia ammatillisessa kontekstissa. Matkani ohjelmistokehittäjäksi on vielä kesken, mutta eteneminen on ollut innostavaa ja antoisaa.
+           Luulenpa, että tekoälyn haitat ovat vasta pääsemässä vauhtiin. Ikäviä ihmisiä löytyy noin joka toisesta meistä. Niinpä tekoälyn hyödyntäminen vaatii edelleen osaamista ja kriittistä ajattelua.
+          <br /><br />
+          <span className="blog-ingress">4. Yhteenveto</span>
+          <br /><br />
+          Tekoäly muuttaa nopeasti ohjelmistokehityksen tapoja. Se ei korvaa kehittäjiä, mutta muuttaa työkalupakkia ja osaamisprofiilia merkittävästi. Tulevassa verkkokauppaprojektissa Keskolla tekoäly voi olla tukena esimerkiksi testien automatisoinnissa, käyttöliittymien prototypoinnissa tai asiakasdatan analysoinnissa.
+          <br /><br />
+          Opiskelijana tämä on motivoivaa: tekoäly tarjoaa tukea oppimiseen ja kokeiluun, mutta muistuttaa samalla vastuusta ja osaamisen jatkuvasta päivittämisestä. Koodari 2.0 ei ole enää pelkästään tekninen rakentaja, vaan yhä enemmän myös AI:n viisas käyttäjä.
         </p>
       </>
     ),
