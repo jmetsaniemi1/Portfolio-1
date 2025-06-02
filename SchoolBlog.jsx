@@ -1,7 +1,7 @@
 import React from "react";
 import "./SchoolBlog.css";
-import cat1 from "./assets/Images/cat1.jpg";
-import cat2 from "./assets/Images/cat2.jpg";
+import pexels1 from "./assets/Images/pexels-luis-gomes.jpg";
+import pexels2 from "./assets/Images/pexels-tara-winstead.jpg";
 
 const articles = [
   {
@@ -50,6 +50,11 @@ const articles = [
           <br /><br />
           Itse lähdin opiskelemaan koodaamista kun AI oli vielä alkuvaiheissa - eikä siitä ole kauaa. Sinä aikana koko työmarkkina ja työskentelytapa on muuttunut. Seuraaville opiskelijoille luultavasti tekoälyä painotetaan aivan eri tavalla kuin minulle. Onko se minulle etu vai haaste, se jää nähtäväksi.
           <br /><br />
+          <figure>
+    <img className="school-blog-img" src={pexels1} alt="AI-themed image by Tara Windstead from Pexels" />
+    <figcaption>Kuva: Tara Windstead / Pexels</figcaption>
+  </figure>
+  <br /><br />
           <span className="blog-ingress">3. Vastuu ja eettisyys tekoälyn käytössä</span>
           <br /><br />
           Tekoäly voi olla tehokas apuri, mutta vastuu työn tuloksista säilyy aina käyttäjällä itsellään. Tämä tarkoittaa muun muassa:
@@ -69,8 +74,18 @@ const articles = [
           <br /><br />
           Tekoäly muuttaa nopeasti ohjelmistokehityksen tapoja. Se ei korvaa kehittäjiä, mutta muuttaa työkalupakkia ja osaamisprofiilia merkittävästi. Tulevassa verkkokauppaprojektissa Keskolla tekoäly voi olla tukena esimerkiksi testien automatisoinnissa, käyttöliittymien prototypoinnissa tai asiakasdatan analysoinnissa.
           <br /><br />
-          Opiskelijana tämä on motivoivaa: tekoäly tarjoaa tukea oppimiseen ja kokeiluun, mutta muistuttaa samalla vastuusta ja osaamisen jatkuvasta päivittämisestä. Koodari 2.0 ei ole enää pelkästään tekninen rakentaja, vaan yhä enemmän myös AI:n viisas käyttäjä.
+          Opiskelijana tämä on motivoivaa: tekoäly tarjoaa tukea oppimiseen ja kokeiluun, mutta muistuttaa samalla vastuusta ja osaamisen jatkuvasta päivittämisestä. Koodari on yhä enemmän myös AI:n viisas edelläkävijä.
+          <br /><br />
+          <br /><br />
         </p>
+
+        
+  
+
+  <figure>
+    <img className="school-blog-img" src={pexels2} alt="AI-themed image by Luis Gomez from Pexels" />
+    <figcaption>Kuva: Luis Gomez / Pexels</figcaption>
+  </figure>
       </>
     ),
   },

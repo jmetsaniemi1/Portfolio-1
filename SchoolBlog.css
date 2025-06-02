@@ -280,6 +280,13 @@ nav {
   box-shadow: 0 4px 16px rgba(0,0,0,0.15);
 }
 
+.school-blog-img {
+  width: 320px;
+  height: 320px;
+  object-fit: cover;
+  display: block;
+}
+
 /* Mobile-optimointi */
 @media (max-width: 768px) {
   .blog-sidebar {
