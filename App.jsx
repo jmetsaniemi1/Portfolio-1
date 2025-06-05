@@ -12,9 +12,10 @@ import SpaceProjectImage from "./assets/Images/S.P.A.C.E-project.png";
 import MeImage from "./assets/Images/Me.png";
 import Footer from "./Footer";
 import StockTicker from "./StockTicker";
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import Blog from './blog.jsx';
 import SchoolBlog from './SchoolBlog.jsx';
+import TestPage from "./test.jsx";
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+
 
 function App() {
   const dialogRef = useRef(null);
@@ -286,8 +287,8 @@ function App() {
             <Footer />
           </div>
         } />
-        <Route path="/blog" element={<><Navigation /><Blog /></>} />
-        <Route path="/school-blog" element={<><Navigation /><SchoolBlog /></>} />
+        <Route path="/schoolblog" element={<SchoolBlog />} />
+        <Route path="/test" element={<TestPage />} />
       </Routes>
     </BrowserRouter>
   );

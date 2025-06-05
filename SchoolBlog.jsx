@@ -2,6 +2,7 @@ import React from "react";
 import "./SchoolBlog.css";
 import pexels1 from "./assets/Images/pexels-luis-gomes.jpg";
 import pexels2 from "./assets/Images/pexels-tara-winstead.jpg";
+import Navigation from "./Navigation";
 
 const articles = [
   {
@@ -94,16 +95,7 @@ const articles = [
 function SchoolBlog() {
   return (
     <div className="blog-wrapper">
-      <video
-        className="background-video"
-        autoPlay
-        muted
-        loop
-        playsInline
-      >
-        <source src="./assets/Images/Videos/lightmode.mp4" type="video/mp4" />
-      </video>
-
+      <Navigation />
       <div className="blog-sidebar">
         <h2>BLOG</h2>
         <ul>
