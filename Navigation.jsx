@@ -922,7 +922,7 @@ function Navigation({ onProjectsClick, hideBackgroundAndThemeSwitch }) {
             </button>
           </li>
           <li>
-            <button id="open-blog2" onClick={() => { navigate('/test'); }}>
+            <button id="open-blog2" onClick={() => { navigate('/blog'); }}>
               BLOG
             </button>
           </li>

@@ -1,5 +1,5 @@
 import React, { useRef, useState, useEffect } from "react";
-import "./test.css";
+import "./blog.css";
 import Navigation from "./Navigation.jsx";
 import cat1 from "./assets/Images/cat1.jpg";
 import cat2 from "./assets/Images/cat2.jpg";

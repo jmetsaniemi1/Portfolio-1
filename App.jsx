@@ -13,7 +13,7 @@ import MeImage from "./assets/Images/Me.png";
 import Footer from "./Footer";
 import StockTicker from "./StockTicker";
 import SchoolBlog from './SchoolBlog.jsx';
-import TestPage from "./test.jsx";
+import TestPage from "./blog.jsx";
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 
@@ -288,7 +288,7 @@ function App() {
           </div>
         } />
         <Route path="/schoolblog" element={<SchoolBlog />} />
-        <Route path="/test" element={<TestPage />} />
+        <Route path="/blog" element={<TestPage />} />
       </Routes>
     </BrowserRouter>
   );
