@@ -173,6 +173,7 @@ export default function TestPage() {
   const [shrinkVideo, setShrinkVideo] = useState(false);
   const [showScrollDown, setShowScrollDown] = useState(true);
   const [videoSrc, setVideoSrc] = useState(bloginintro);
+  const [videoReady, setVideoReady] = useState(false);
 
   // Videon lähteen valinta ruudun koon mukaan
   useEffect(() => {
@@ -254,55 +255,65 @@ export default function TestPage() {
           onEnded={handleVideoEnd}
           playsInline
           muted
+          onCanPlayThrough={() => setVideoReady(true)}
         />
       </div>
-      {videoEnded && !shrinkVideo && (
-        <div className="scroll-down-wrapper">
-          <span className="scroll-down-text" style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
-            <svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M18 8V28M18 28L8 18M18 28L28 18" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
-            </svg>
-          </span>
-          <div className="corner-box">
-            <span className="cool-text">Cool?</span>
-            <button
-              className="play-again-btn"
-              onClick={() => {
-                setVideoEnded(false);
-                setShrinkVideo(false);
-                if (videoRef.current) {
-                  videoRef.current.currentTime = 0;
-                  videoRef.current.play();
-                }
-              }}
-            >
-              Play It Again!
-            </button>
-          </div>
+      {!videoReady && (
+        <div style={{position: 'fixed', top:0, left:0, width:'100vw', height:'100vh', background:'#000', zIndex:100, display:'flex', alignItems:'center', justifyContent:'center', color:'#fff', fontSize:'2rem'}}>
+          Ladataan videota...
         </div>
       )}
-      <div className="test-content">
-        <div className="blog-layout">
-          <div className="blog-sidebar center">
-            <ul>
-              {articles.map((a) => (
-                <li key={a.id}>
-                  <a href={`#${a.id}`}>{a.title.split(" – ")[0]}</a>
-                </li>
-              ))}
-            </ul>
-          </div>
-          <div className="blog-area-multi center">
-            {articles.map((a) => (
-              <div className="blog-article dark" id={a.id} key={a.id}>
-                <div className="blog-date">{a.date}</div>
-                <h1 className="blog-title">{a.title}</h1>
-                {a.content}
+      {videoReady && (
+        <>
+          {videoEnded && !shrinkVideo && (
+            <div className="scroll-down-wrapper">
+              <span className="scroll-down-text" style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+                <svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M18 8V28M18 28L8 18M18 28L28 18" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
+              </span>
+              <div className="corner-box">
+                <span className="cool-text">Cool?</span>
+                <button
+                  className="play-again-btn"
+                  onClick={() => {
+                    setVideoEnded(false);
+                    setShrinkVideo(false);
+                    if (videoRef.current) {
+                      videoRef.current.currentTime = 0;
+                      videoRef.current.play();
+                    }
+                  }}
+                >
+                  Play It Again!
+                </button>
               </div>
-            ))}
+            </div>
+          )}
+          <div className="test-content">
+            <div className="blog-layout">
+              <div className="blog-sidebar center">
+                <ul>
+                  {articles.map((a) => (
+                    <li key={a.id}>
+                      <a href={`#${a.id}`}>{a.title.split(" – ")[0]}</a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+              <div className="blog-area-multi center">
+                {articles.map((a) => (
+                  <div className="blog-article dark" id={a.id} key={a.id}>
+                    <div className="blog-date">{a.date}</div>
+                    <h1 className="blog-title">{a.title}</h1>
+                    {a.content}
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
-        </div>
-      </div>
+        </>
+      )}
     </div>
   );
 }
