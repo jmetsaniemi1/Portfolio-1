@@ -3,6 +3,10 @@ import "./test.css";
 import Navigation from "./Navigation.jsx";
 import cat1 from "./assets/Images/cat1.jpg";
 import cat2 from "./assets/Images/cat2.jpg";
+import bloginintro from "./assets/Images/Videos/bloginintro.mp4";
+import bloginintrophone from "./assets/Images/Videos/bloginintrophone.mp4";
+import bloginintrotablet from "./assets/Images/Videos/bloginintrotablet.mp4";
+
 
 const articles = [
   {
@@ -168,18 +172,18 @@ export default function TestPage() {
   const [videoEnded, setVideoEnded] = useState(false);
   const [shrinkVideo, setShrinkVideo] = useState(false);
   const [showScrollDown, setShowScrollDown] = useState(true);
-  const [videoSrc, setVideoSrc] = useState("./assets/Images/Videos/bloginintro.mp4");
+  const [videoSrc, setVideoSrc] = useState(bloginintro);
 
   // Videon lähteen valinta ruudun koon mukaan
   useEffect(() => {
     function chooseVideoSrc() {
       const width = window.innerWidth;
       if (width <= 600) {
-        setVideoSrc("./assets/Images/Videos/bloginintrophone.mp4");
+        setVideoSrc(bloginintrophone);
       } else if (width <= 1024) {
-        setVideoSrc("./assets/Images/Videos/bloginintrotablet.mp4");
+        setVideoSrc(bloginintrotablet);
       } else {
-        setVideoSrc("./assets/Images/Videos/bloginintro.mp4");
+        setVideoSrc(bloginintro);
       }
     }
     chooseVideoSrc();
